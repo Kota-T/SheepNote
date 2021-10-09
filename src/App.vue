@@ -33,6 +33,9 @@ body{
   color: var(--main-color) !important;
   background-color: #FFF9F3;
 }
+.nav{
+  overflow-x: scroll;
+}
 .nav-link{
   font-weight: bold;
   color: var(--main-color);

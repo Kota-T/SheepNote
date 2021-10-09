@@ -137,7 +137,8 @@ function removeTalk(talk: Talk): void {
     <label class="form-label">どんな人?</label>
     <textarea class="form-control" v-model="data.note"></textarea>
   </div>
-  <div class="form-label mt-2 d-flex">
+  <button type="button" class="btn w-100 mb-2" @click="saveSheep">保存</button>
+  <div class="form-label d-flex">
     <label class="me-auto" style="line-height:40px">訪問履歴</label>
     <button type="button" class="btn" @click="addTalk">追加</button>
   </div>

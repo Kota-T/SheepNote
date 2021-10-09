@@ -11,8 +11,10 @@ function reset(): void {
 </script>
 
 <template>
-  <nav class="nav">
-    <router-link to="/" class="nav-link ps-2"><img src="/hitsuji.png" height="60"></router-link>
+  <nav class="nav sticky-top">
+    <router-link to="/" class="nav-link ps-2 position-sticky start-0">
+      <img src="/hitsuji.png" height="60">
+    </router-link>
     <router-link to="/register" class="nav-link">登録</router-link>
     <router-link to="/groups" class="nav-link">グループ一覧</router-link>
     <span class="nav-link" @click="reset">リセット</span>
@@ -34,12 +36,19 @@ body{
   background-color: #FFF9F3;
 }
 .nav{
+  flex-wrap: nowrap;
   overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.nav::-webkit-scrollbar{
+  display:none;
 }
 .nav-link{
   font-weight: bold;
   color: var(--main-color);
   line-height: 60px;
+  white-space: nowrap;
 }
 .nav-link:hover{
   cursor: pointer;

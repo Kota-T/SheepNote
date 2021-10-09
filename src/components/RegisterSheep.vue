@@ -67,5 +67,5 @@ function registerSheep(): void {
     <label class="form-label">どんな人?</label>
     <textarea class="form-control" v-model="data.note"></textarea>
   </div>
-  <router-link to="/" class="btn w-100" @click="registerSheep">登録</router-link>
+  <router-link to="/" class="btn w-100 mb-2" @click="registerSheep">登録</router-link>
 </template>

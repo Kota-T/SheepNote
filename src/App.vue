@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import db from './db'
 
-function reset(): void {
+async function reset(): Promise<void> {
   if(confirm("データを全て消去しますか？") && confirm("本当にいいですか？")){
-    db.sheep.clear()
-    db.groups.clear()
-    db.talks.clear()
+    await db.sheep.clear()
+    await db.groups.clear()
+    await db.talks.clear()
+    location.href = "/"
   }
 }
 </script>

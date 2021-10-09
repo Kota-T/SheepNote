@@ -17,7 +17,7 @@ function saveGroup(new_group: Group){
     db.groups.put(new_group).then(id => new_group.id = id)
 }
 function removeGroup(group: Group){
-  if(!confirm(`グループ：${group.name} を削除しますか？`)) return
+  if(group.id && !confirm(`グループ：${group.name} を削除しますか？`)) return
   groupArray.value.splice(groupArray.value.indexOf(group), 1)
   if(group.id){
     db.groups.delete(group.id)

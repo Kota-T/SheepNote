@@ -1,5 +1,12 @@
+<script>
+import { onMounted } from 'vue'
+onMounted(()=>{
+  document.body.ontouchmove = e=>e.preventDefault()
+})
+</script>
+
 <template>
-  <div id="popup-background" @click="$emit('hide-popup')">
+  <div id="popup-background" @click="document.body.ontouchmove=null;$emit('hide-popup');">
     <slot></slot>
   </div>
 </template>

@@ -29,8 +29,7 @@ function startEdit(fileList: FileList | null){
   reader.onload = ()=>{
     if(!canvas_field.value || !btn.value || !zoom_slider.value) return
     isShowEditor.value = true
-    document.body.ontouchmove = e=>e.preventDefault()
-    const frameCvs  = new FrameCanvas(canvas_field.value)
+    const frameCvs = new FrameCanvas(canvas_field.value)
     const imgCvs = new ImageCanvas(
       reader.result as string, canvas_field.value, zoom_slider.value
     )
@@ -53,7 +52,6 @@ function startEdit(fileList: FileList | null){
 function hide(){
   if(!canvas_field.value || !fileInput.value) return
   canvas_field.value.innerHTML = ""
-  document.body.ontouchmove = null
   isShowEditor.value = false
   fileInput.value.value = ""
 }
@@ -68,7 +66,7 @@ function hide(){
     <img :src="sheep.img_url" class="ms-2" width="70" height="70" ref="img">
   </div>
   <Popup v-show="isShowEditor" @hide-popup="hide">
-    <div id="popup" @click.stop @touchmove.stop>
+    <div id="popup" @click.stop @touchmove.prevent.stop>
       <div id="canvas_field" ref="canvas_field" @touchmove.stop></div>
       <div id="controller-container">
         <input type="range" value="0" ref="zoom_slider" @touchmove.stop>

@@ -28,7 +28,7 @@ function getDay(talk: Talk): string {
 
 <template>
   <div class="card">
-    <div class="card-body">
+    <div class="card-body position-relative">
       <h5 class="card-title fw-bold">{{ sheep.name }}</h5>
       <p class="card-text">最後に訪問した時間<br>
         {{ last_talk.year || "--" }}年
@@ -51,6 +51,9 @@ function getDay(talk: Talk): string {
           <router-link :to="{ name: 'edit', params: { sheep_id: sheep.id } }" class="btn">編集</router-link>
           <button type="button" class="btn" @click="$emit('remove-sheep', props.sheep)">削除</button>
         </div>
+      </div>
+      <div class="position-absolute" style="top:10px;right:10px;" v-if="sheep.img_url">
+        <img :src="sheep.img_url" width="70" height="70">
       </div>
     </div>
   </div>

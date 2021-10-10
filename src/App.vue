@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import db from './db'
+import Dexie from 'dexie'
 
 async function reset(): Promise<void> {
   if(confirm("データを全て消去しますか？") && confirm("本当にいいですか？")){
-    await db.sheep.clear()
-    await db.groups.clear()
-    await db.talks.clear()
+    Dexie.delete('SheepNoteDB')
     location.href = "/"
   }
 }
@@ -16,6 +14,7 @@ async function reset(): Promise<void> {
     <router-link to="/" class="nav-link ps-2 position-sticky start-0">
       <img src="/hitsuji.png" height="60">
     </router-link>
+    <router-link to="/" class="nav-link">トップ</router-link>
     <router-link to="/register" class="nav-link">登録</router-link>
     <router-link to="/groups" class="nav-link">グループ一覧</router-link>
     <span class="nav-link" @click="reset">リセット</span>

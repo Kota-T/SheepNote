@@ -14,6 +14,7 @@ const db = new class SheepNoteDB extends Dexie {
       sheep: `
         ++id,
         name,
+        img_url,
         gender,
         age,
         address,

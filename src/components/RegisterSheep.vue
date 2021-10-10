@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ImageUploader from './ImageUploader.vue'
 import { ref, reactive, onMounted } from 'vue'
 import { Sheep, Group } from '../models'
 import db from '../db'
@@ -21,6 +22,7 @@ function registerSheep(): void {
     <label class="form-label">名前</label>
     <input type="text" class="form-control" v-model="data.name">
   </div>
+  <ImageUploader :sheep="data" />
   <div class="form-group">
     <label class="form-label">性別</label>
     <select class="form-select" v-model="data.gender">

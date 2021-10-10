@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ImageUploader from './ImageUploader.vue'
 import TalkEditor from './TalkEditor.vue'
 import { ref, reactive, onMounted } from 'vue'
 import { Sheep, Group, Talk } from '../models'
@@ -91,6 +92,7 @@ function removeTalk(talk: Talk): void {
     </div>
     <input type="text" class="form-control" v-model="data.name">
   </div>
+  <ImageUploader :sheep="data" />
   <div class="form-group">
     <label class="form-label">性別</label>
     <select class="form-select" v-model="data.gender">

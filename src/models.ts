@@ -4,6 +4,7 @@ type Age = 0 | 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 100
 export interface Sheep {
   id?: number
   name: string
+  img_url?: string
   gender?: Gender
   age?: Age
   address?: string

@@ -1,5 +1,5 @@
 <template>
-  <div id="popup-background" @click="$emit('hide-popup')">
+  <div id="popup-background" @click="$emit('hide-popup')" @touchmove.prevent.stop>
     <slot></slot>
   </div>
 </template>

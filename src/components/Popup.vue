@@ -1,16 +1,5 @@
-<script setup lang="ts">
-function disableScroll(event: TouchEvent){
-  const popup = document.getElementById('popup')
-  if(event.target === popup) {
-    event.stopPropagation();
-  }else{
-    event.preventDefault();
-  }
-}
-</script>
-
 <template>
-  <div id="popup-background" @click="$emit('hide-popup')" @touchmove.stop="disableScroll">
+  <div id="popup-background" @click="$emit('hide-popup')">
     <slot></slot>
   </div>
 </template>

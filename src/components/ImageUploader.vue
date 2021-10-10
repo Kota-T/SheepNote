@@ -66,7 +66,7 @@ function hide(){
     <img :src="sheep.img_url" class="ms-2" width="70" height="70" ref="img">
   </div>
   <Popup v-show="isShowEditor" @hide-popup="hide">
-    <div id="popup" @click.stop>
+    <div id="popup" @click.stop @touchstart.stop>
       <div id="canvas_field" ref="canvas_field"></div>
       <div id="controller-container">
         <input type="range" value="0" ref="zoom_slider">

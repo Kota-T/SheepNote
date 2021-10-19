@@ -53,7 +53,7 @@ function getDay(talk: Talk): string {
         </div>
       </div>
       <div class="position-absolute" style="top:10px;right:10px;" v-if="sheep.img_url">
-        <img :src="sheep.img_url" width="70" height="70">
+        <img class="rounded-circle" :src="sheep.img_url" width="70" height="70">
       </div>
     </div>
   </div>

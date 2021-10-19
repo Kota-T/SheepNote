@@ -4,7 +4,8 @@ import { ref } from 'vue'
 import { Sheep } from '../models'
 import { FrameCanvas, ImageCanvas, trim } from '../canvas'
 
-const props = defineProps<{ sheep: Sheep }>()
+const props = defineProps<{ modelValue: string | undefined }>()
+const emits = defineEmits<{ (e: 'update:modelValue', modelValue: string | undefined): void }>()
 
 const isShowEditor = ref(false)
 const fileInput    = ref<HTMLInputElement>()
@@ -40,8 +41,7 @@ function startEdit(fileList: FileList | null){
         return
       }
       const url = resultCvs.toDataURL()
-      props.sheep.img_url = url
-      img.value.src = url
+      emits('update:modelValue', url)
       canvas_field.value.innerHTML = ""
       isShowEditor.value = false
     }
@@ -55,15 +55,24 @@ function hide(){
   isShowEditor.value = false
   fileInput.value.value = ""
 }
+
+function reset(){
+  if(!fileInput.value) return
+  fileInput.value.value = ""
+  emits('update:modelValue', undefined)
+}
 </script>
 
 <template>
-  <div class="form-group d-flex">
-    <div>
+  <div class="d-flex">
+    <div class="form-group">
       <label class="form-label">ファイルを選択</label>
-      <input type="file" accept="image/*" class="form-control" @change="startEdit(($event.target as HTMLInputElement).files)" ref="fileInput">
+      <div class="input-group">
+        <input type="file" accept="image/*" class="form-control" @change="startEdit(($event.target as HTMLInputElement).files)" ref="fileInput">
+        <button type="button" class="btn" v-if="modelValue" @click="reset">消去</button>
+      </div>
     </div>
-    <img :src="sheep.img_url" class="ms-2" width="70" height="70" ref="img">
+    <img :src="modelValue" class="ms-2 ms-sm-auto border border-1 rounded-circle" width="70" height="70" ref="img">
   </div>
   <Popup v-show="isShowEditor" @hide-popup="hide">
     <div id="popup" @click.stop @touchmove.stop>

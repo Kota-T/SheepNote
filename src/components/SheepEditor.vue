@@ -93,7 +93,7 @@ function removeTalk(talk: Talk): void {
     </div>
     <input type="text" class="form-control" v-model="data.name">
   </div>
-  <ImageUploader :sheep="data" />
+  <ImageUploader v-model="data.img_url" />
   <div class="form-group">
     <label class="form-label">性別</label>
     <select class="form-select" v-model="data.gender">

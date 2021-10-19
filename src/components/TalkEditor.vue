@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue'
+import { computed, reactive, toRaw } from 'vue'
 import { Talk } from '../models'
 
 defineEmits<{ (e: 'talk-save', talk: Talk): void, (e: 'talk-remove', talk: Talk): void }>()
@@ -13,6 +13,9 @@ const day_of_week = computed(
     data.date
   ).getDay()
 )
+function unwrapReactive(talk: Talk): Talk {
+  return toRaw(talk)
+}
 </script>
 
 <template>
@@ -21,8 +24,8 @@ const day_of_week = computed(
       <div class="form-label d-flex">
         <label class="me-auto" style="line-height:40px;">日付</label>
         <div class="btn-group">
-          <button type="button" class="btn" @click="$emit('talk-save', data)">保存</button>
-          <button type="button" class="btn" @click="$emit('talk-remove', data)">削除</button>
+          <button type="button" class="btn" @click="$emit('talk-save', unwrapReactive(data))">保存</button>
+          <button type="button" class="btn" @click="$emit('talk-remove', unwrapReactive(data))">削除</button>
         </div>
       </div>
       <div class="row gy-2">

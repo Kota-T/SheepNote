@@ -28,7 +28,6 @@ function startEdit(fileList: FileList | null){
   const reader = new FileReader()
   reader.onload = ()=>{
     if(!canvas_field.value || !btn.value || !zoom_slider.value) return
-    document.body.ontouchmove = e=>e.preventDefault()
     isShowEditor.value = true
     const frameCvs = new FrameCanvas(canvas_field.value)
     const imgCvs = new ImageCanvas(
@@ -53,7 +52,6 @@ function startEdit(fileList: FileList | null){
 function hide(){
   if(!canvas_field.value || !fileInput.value) return
   canvas_field.value.innerHTML = ""
-  document.body.ontouchmove = null
   isShowEditor.value = false
   fileInput.value.value = ""
 }

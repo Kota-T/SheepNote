@@ -41,7 +41,8 @@ function addTalk(): void {
 }
 async function saveTalk(talk: Talk): Promise<void> {
   if(!data.id) return
-  talk.sheep_id = data.id
+  if(!talk.sheep_id)
+    talk.sheep_id = data.id
   await db.talks.put(talk).then(id => talk.id = id)
 
   if(data.last_talk_id){

@@ -33,7 +33,7 @@ async function reset(): Promise<void> {
 body{
   font-family: "Roboto", "Noto Sans JP";
   color: var(--main-color) !important;
-  background-color: #FFF9F3;
+  background-color: #fff9f3;
 }
 .nav{
   flex-wrap: nowrap;
@@ -62,6 +62,12 @@ body{
 .btn:hover{
   color: #ffffff;
   background-color: var(--main-color);
+}
+.btn svg{
+  fill: var(--main-color);
+}
+.btn svg:hover{
+  fill: #fff9f3;
 }
 .form-group{
   margin-bottom: 0.5rem;

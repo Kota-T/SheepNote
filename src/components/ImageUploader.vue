@@ -20,7 +20,6 @@ function startEdit(fileList: FileList | null){
     !fileList.length ||
     !canvas_field.value ||
     !btn.value ||
-    !img.value ||
     !zoom_slider.value
   ) return
 
@@ -35,7 +34,7 @@ function startEdit(fileList: FileList | null){
       reader.result as string, canvas_field.value, zoom_slider.value
     )
     btn.value.onclick = ()=>{
-      if(!canvas_field.value || !img.value) return
+      if(!canvas_field.value) return
       const resultCvs = trim(imgCvs, frameCvs)
       if(!resultCvs){
         return
@@ -72,7 +71,8 @@ function reset(){
         <button type="button" class="btn" v-if="modelValue" @click="reset">消去</button>
       </div>
     </div>
-    <img :src="modelValue" class="ms-2 ms-sm-auto border border-1 rounded-circle" width="70" height="70" ref="img">
+    <img v-if="modelValue" :src="modelValue" class="ms-2 ms-sm-auto border border-1 rounded-circle bg-white" width="70" height="70" ref="img">
+    <img v-else src="../assets/human.png" class="ms-2 ms-sm-auto border border-1 rounded-circle bg-white" width="70" height="70" ref="img">
   </div>
   <Popup v-show="isShowEditor" @hide-popup="hide">
     <div id="popup" @click.stop @touchmove.stop>

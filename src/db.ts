@@ -37,18 +37,13 @@ const db = new class SheepNoteDB extends Dexie {
 
 export default db
 
-export const getDate = (talk_id: number) => db.talks.get(talk_id).then(talk => {
-  if(talk && talk.year && talk.month && talk.date && talk.hours && talk.minutes)
-    return new Date(talk.year, talk.month - 1, talk.date, talk.hours, talk.minutes)
-  return undefined
-})
 export const compareSheep = async (f: Sheep, s: Sheep) => {
   if(!f.last_talk_id && s.last_talk_id)
     return false
   if(!f.last_talk_id || !s.last_talk_id)
     return true
-  const f_last_talk_date = await getDate(f.last_talk_id)
-  const s_last_talk_date = await getDate(s.last_talk_id)
+  const f_last_talk_date = await db.talks.get(f.last_talk_id).then(talk => talk?.date)
+  const s_last_talk_date = await db.talks.get(s.last_talk_id).then(talk => talk?.date)
   if(!f_last_talk_date && s_last_talk_date)
     return false
   if(!f_last_talk_date || !s_last_talk_date)

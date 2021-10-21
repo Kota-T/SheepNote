@@ -1,4 +1,4 @@
-type Gender = "Male" | "Female"
+type Gender = "男性" | "女性"
 type Age = 0 | 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 100
 
 export interface Sheep {
@@ -24,10 +24,6 @@ export interface Group {
 export interface Talk {
   id?: number
   sheep_id: number
-  year: number
-  month: number
-  date: number
-  hours: number
-  minutes: number
+  date: Date
   details: string
 }

@@ -26,24 +26,24 @@ function registerSheep(): void {
   <div class="form-group">
     <label class="form-label">性別</label>
     <select class="form-select" v-model="data.gender">
-      <option value="Male">男性</option>
-      <option value="Female">女性</option>
+      <option>男性</option>
+      <option>女性</option>
     </select>
   </div>
   <div class="form-group">
     <label class="form-label">年齢</label>
-    <select class="form-select" v-model="data.age">
-      <option :value="0">0~9</option>
-      <option :value="10">10~19</option>
-      <option :value="20">20~29</option>
-      <option :value="30">30~39</option>
-      <option :value="40">40~49</option>
-      <option :value="50">50~59</option>
-      <option :value="60">60~69</option>
-      <option :value="70">70~79</option>
-      <option :value="80">80~89</option>
-      <option :value="90">90~99</option>
-      <option :value="100">100~</option>
+    <select class="form-select" v-model.number="data.age">
+      <option value="0">0~9</option>
+      <option value="10">10~19</option>
+      <option value="20">20~29</option>
+      <option value="30">30~39</option>
+      <option value="40">40~49</option>
+      <option value="50">50~59</option>
+      <option value="60">60~69</option>
+      <option value="70">70~79</option>
+      <option value="80">80~89</option>
+      <option value="90">90~99</option>
+      <option value="100">100~</option>
     </select>
   </div>
   <div class="form-group">

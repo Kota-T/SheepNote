@@ -1,18 +1,15 @@
 <script setup lang="ts">
-import { computed, reactive, toRaw } from 'vue'
+import { computed, reactive, ref, toRaw } from 'vue'
 import { Talk } from '../models'
 
 defineEmits<{ (e: 'talk-save', talk: Talk): void, (e: 'talk-remove', talk: Talk): void }>()
 const props = defineProps<{ talk: Talk }>()
 const data = reactive<Talk>(props.talk)
 
-const day_of_week = computed(
-  ()=>new Date(
-    data.year,
-    data.month - 1,
-    data.date
-  ).getDay()
-)
+function update(){
+  data.date = new Date(data.date.getTime())
+}
+
 function unwrapReactive(talk: Talk): Talk {
   return toRaw(talk)
 }
@@ -32,11 +29,21 @@ function unwrapReactive(talk: Talk): Talk {
         <div class="col-sm-6">
           <div class="row">
             <div class="input-group col">
-              <input type="number" class="form-control" v-model.number="data.year">
+              <input
+              type="number"
+              class="form-control"
+              :value="data.date.getFullYear()"
+              @input="data.date.setFullYear(Number(($event.target as HTMLInputElement).value));update();"
+              >
               <span class="input-group-text">年</span>
             </div>
             <div class="input-group col">
-              <input type="number" class="form-control" v-model.number="data.month">
+              <input
+              type="number"
+              class="form-control"
+              :value="data.date.getMonth() + 1"
+              @input="data.date.setMonth(Number(($event.target as HTMLInputElement).value) - 1);update();"
+              >
               <span class="input-group-text">月</span>
             </div>
           </div>
@@ -44,18 +51,23 @@ function unwrapReactive(talk: Talk): Talk {
         <div class="col-sm-6">
           <div class="row">
             <div class="input-group col">
-              <input type="number" class="form-control" v-model.number="data.date">
+              <input
+              type="number"
+              class="form-control"
+              :value="data.date.getDate()"
+              @input="data.date.setDate(Number(($event.target as HTMLInputElement).value));update();"
+              >
               <span class="input-group-text">日</span>
             </div>
             <div class="input-group col">
-              <select class="form-select" disabled :value="day_of_week">
-                <option :value="0">日</option>
-                <option :value="1">月</option>
-                <option :value="2">火</option>
-                <option :value="3">水</option>
-                <option :value="4">木</option>
-                <option :value="5">金</option>
-                <option :value="6">土</option>
+              <select class="form-select" disabled :value="data.date.getDay()">
+                <option value="0">日</option>
+                <option value="1">月</option>
+                <option value="2">火</option>
+                <option value="3">水</option>
+                <option value="4">木</option>
+                <option value="5">金</option>
+                <option value="6">土</option>
               </select>
               <span class="input-group-text">曜日</span>
             </div>
@@ -67,11 +79,21 @@ function unwrapReactive(talk: Talk): Talk {
       <label class="form-label">時間</label>
       <div class="row">
         <div class="input-group col">
-          <input type="number" class="form-control" v-model.number="data.hours">
+          <input
+          type="number"
+          class="form-control"
+          :value="data.date.getHours()"
+          @input="data.date.setHours(Number(($event.target as HTMLInputElement).value));update();"
+          >
           <span class="input-group-text">時</span>
         </div>
         <div class="input-group col">
-          <input type="number" class="form-control" v-model.number="data.minutes">
+          <input
+          type="number"
+          class="form-control"
+          :value="data.date.getMinutes()"
+          @input="data.date.setMinutes(Number(($event.target as HTMLInputElement).value));update();"
+          >
           <span class="input-group-text">分</span>
         </div>
       </div>

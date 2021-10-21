@@ -23,19 +23,11 @@ function saveSheep(){
     db.sheep.update(data.id, data)
 }
 
-function talk2Date(talk: Talk){
-  return new Date(talk.year, talk.month - 1, talk.date, talk.hours, talk.minutes)
-}
 function addTalk(): void {
   if(!data.id) return
-  const date = new Date()
   talkArray.value.push({
     sheep_id : data.id,
-    year     : date.getFullYear(),
-    month    : date.getMonth() + 1,
-    date     : date.getDate(),
-    hours    : date.getHours(),
-    minutes  : date.getMinutes(),
+    date     : new Date(),
     details  : ""
   })
 }
@@ -48,7 +40,7 @@ async function saveTalk(talk: Talk): Promise<void> {
   if(data.last_talk_id){
     if(data.last_talk_id === talk.id){
       const last_talk = talkArray.value.reduce((a, b)=>{
-        return talk2Date(a).getTime() > talk2Date(b).getTime() ? a : b
+        return a.date > b.date ? a : b
       })
       if(data.last_talk_id === last_talk.id)
         return
@@ -57,7 +49,7 @@ async function saveTalk(talk: Talk): Promise<void> {
       return
     }
     const last_talk = await db.talks.get(data.last_talk_id)
-    if(last_talk && talk2Date(last_talk) > talk2Date(talk))
+    if(last_talk && last_talk.date > talk.date)
       return
   }
 
@@ -76,7 +68,7 @@ function removeTalk(talk: Talk): void {
         return
       }
       const last_talk = talkArray.value.reduce((a, b)=>{
-        return talk2Date(a).getTime() > talk2Date(b).getTime() ? a : b
+        return a.date > b.date ? a : b
       })
       data.last_talk_id = last_talk.id
       db.sheep.update(data.id, { last_talk_id: last_talk.id })
@@ -97,24 +89,24 @@ function removeTalk(talk: Talk): void {
   <div class="form-group">
     <label class="form-label">性別</label>
     <select class="form-select" v-model="data.gender">
-      <option value="Male">男性</option>
-      <option value="Female">女性</option>
+      <option>男性</option>
+      <option>女性</option>
     </select>
   </div>
   <div class="form-group">
     <label class="form-label">年齢</label>
     <select class="form-select" v-model.number="data.age">
-      <option :value="0">0~9</option>
-      <option :value="10">10~19</option>
-      <option :value="20">20~29</option>
-      <option :value="30">30~39</option>
-      <option :value="40">40~49</option>
-      <option :value="50">50~59</option>
-      <option :value="60">60~69</option>
-      <option :value="70">70~79</option>
-      <option :value="80">80~89</option>
-      <option :value="90">90~99</option>
-      <option :value="100">100~</option>
+      <option value="0">0~9</option>
+      <option value="10">10~19</option>
+      <option value="20">20~29</option>
+      <option value="30">30~39</option>
+      <option value="40">40~49</option>
+      <option value="50">50~59</option>
+      <option value="60">60~69</option>
+      <option value="70">70~79</option>
+      <option value="80">80~89</option>
+      <option value="90">90~99</option>
+      <option value="100">100~</option>
     </select>
   </div>
   <div class="form-group">

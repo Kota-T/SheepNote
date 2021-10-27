@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, ref, toRaw } from 'vue'
+import { reactive, toRaw } from 'vue'
 import { Talk } from '../models'
 
 defineEmits<{ (e: 'talk-save', talk: Talk): void, (e: 'talk-remove', talk: Talk): void }>()

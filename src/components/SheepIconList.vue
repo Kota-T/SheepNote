@@ -23,7 +23,7 @@ async function search(text: string): Promise<void> {
       kwd => db.sheep
         .filter(
           sheep => Object.entries(sheep)
-            .filter(([k, v]: [string, string]) => ['name', 'note'].includes(k))
+            .filter(([k, v]: [string, string]) => ['name', 'gender', 'note'].includes(k))
             .filter(([k, v]: [string, string]) => v.includes(kwd))
             .length !== 0
         )

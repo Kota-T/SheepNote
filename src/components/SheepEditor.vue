@@ -11,11 +11,13 @@ const data = reactive<Sheep>({} as Sheep)
 const groupArray = ref<Group[]>([])
 const talkArray = ref<Talk[]>([])
 
+let tmp_talk_id = 0
+
 onMounted(async ()=>{
   const sheep_id = Number(props.sheep_id)
   Object.assign(data, await db.sheep.get(sheep_id))
   groupArray.value = await db.groups.toArray()
-  talkArray.value = await db.talks.where('sheep_id').equals(sheep_id).toArray()
+  talkArray.value = await db.talks.where('sheep_id').equals(sheep_id).reverse().sortBy('date')
 })
 
 function saveSheep(){
@@ -25,7 +27,8 @@ function saveSheep(){
 
 function addTalk(): void {
   if(!data.id) return
-  talkArray.value.push({
+  talkArray.value.unshift({
+    id       : "_" + tmp_talk_id++ as unknown as number,
     sheep_id : data.id,
     date     : new Date(),
     details  : ""
@@ -33,21 +36,24 @@ function addTalk(): void {
 }
 async function saveTalk(talk: Talk): Promise<void> {
   if(!data.id) return
+  if(typeof talk.id === 'string')
+    talk.id = undefined
   if(!talk.sheep_id)
     talk.sheep_id = data.id
   await db.talks.put(talk).then(id => talk.id = id)
 
-  if(data.last_talk_id){
-    if(data.last_talk_id === talk.id){
-      const last_talk = talkArray.value.reduce((a, b)=>{
-        return a.date > b.date ? a : b
-      })
-      if(data.last_talk_id === last_talk.id)
+  talkArray.value.sort((a, b) => b.date.getTime() - a.date.getTime())
+
+  if(data.last_talk_id){//２回目以降
+    if(data.last_talk_id === talk.id){//最新のtalkを変更した時
+      const real_last_talk = talkArray.value[0]//talkArrayのなかで一番最近のもの
+      if(data.last_talk_id !== real_last_talk.id){//最新だったtalkが変更され最新ではなくなったとき
+        data.last_talk_id = real_last_talk.id
+        db.sheep.update(data.id, { last_talk_id: real_last_talk.id })
         return
-      data.last_talk_id = last_talk.id
-      db.sheep.update(data.id, { last_talk_id: last_talk.id })
-      return
+      }
     }
+    //最新ではないtalkを変更してそのtalkが最新にはならなかった場合
     const last_talk = await db.talks.get(data.last_talk_id)
     if(last_talk && last_talk.date > talk.date)
       return
@@ -139,6 +145,7 @@ function removeTalk(talk: Talk): void {
   </div>
   <TalkEditor
   v-for="talk in talkArray"
+  :key="talk.id"
   :talk="talk"
   @talk-save="saveTalk"
   @talk-remove="removeTalk"

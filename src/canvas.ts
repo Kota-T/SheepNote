@@ -132,7 +132,6 @@ export class ImageCanvas extends Canvas {
 
         if(this.isOnCvs(initXY.x, initXY.y)){
           parent.onpointermove = innerE=>{
-            innerE.preventDefault();
             innerE.stopPropagation();
             const currentXY = this.getPointerXYOnCvs(innerE);
 

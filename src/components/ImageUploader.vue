@@ -11,13 +11,13 @@ const emits = defineEmits<{ (e: 'update:modelValue', modelValue: string | undefi
 const isShowEditor = ref(false)
 const fileInput    = ref<HTMLInputElement>()
 
-/*watchEffect(() => {
+watchEffect(() => {
   if(isShowEditor.value){
-    document.body.setAttribute("style", "position: fixed; overflow: hidden;")
+    document.getElementById('app')!.setAttribute("style", "position: fixed; overflow: hidden;")
   }else{
-    document.body.removeAttribute('style')
+    document.getElementById('app')!.removeAttribute('style')
   }
-})*/
+})
 
 const img_url = ref("")
 
@@ -60,7 +60,7 @@ function reset(){
     <img v-if="modelValue" :src="modelValue" class="ms-2 ms-sm-auto border border-1 rounded-circle bg-white" width="70" height="70">
     <img v-else src="../assets/human.png" class="ms-2 ms-sm-auto border border-1 rounded-circle bg-white" width="70" height="70">
   </div>
-  <teleport to="body">
+  <teleport to="#app">
     <Popup v-if="isShowEditor" @hide-popup="hide">
       <ImageEditor :img_url="img_url" @end-edit="endEdit" />
     </Popup>

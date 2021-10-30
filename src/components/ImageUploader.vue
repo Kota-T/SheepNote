@@ -16,7 +16,7 @@ const btn          = ref<HTMLButtonElement>()
 
 watchEffect(() => {
   if(isShowEditor.value){
-    document.body.setAttribute("style", "overflow: hidden; height: 100%;")
+    document.body.setAttribute("style", "position: fixed; overflow: hidden;")
   }else{
     document.body.removeAttribute('style')
   }

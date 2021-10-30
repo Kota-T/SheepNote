@@ -1,64 +1,42 @@
 <script setup lang="ts">
 import Popup from './Popup.vue'
-import { ref, watchEffect } from 'vue'
+import { nextTick, ref, watchEffect } from 'vue'
 import { Sheep } from '../models'
 import { FrameCanvas, ImageCanvas, trim } from '../canvas'
+import ImageEditor from './ImageEditor.vue'
 
 const props = defineProps<{ modelValue: string | undefined }>()
 const emits = defineEmits<{ (e: 'update:modelValue', modelValue: string | undefined): void }>()
 
 const isShowEditor = ref(false)
 const fileInput    = ref<HTMLInputElement>()
-const img          = ref<HTMLImageElement>()
-const canvas_field = ref<HTMLDivElement>()
-const zoom_slider  = ref<HTMLInputElement>()
-const btn          = ref<HTMLButtonElement>()
 
-watchEffect(() => {
+/*watchEffect(() => {
   if(isShowEditor.value){
     document.body.setAttribute("style", "position: fixed; overflow: hidden;")
   }else{
     document.body.removeAttribute('style')
   }
-})
+})*/
 
-function startEdit(fileList: FileList | null){
-  if(
-    !fileList ||
-    !fileList.length ||
-    !canvas_field.value ||
-    !btn.value ||
-    !zoom_slider.value
-  ) return
+const img_url = ref("")
 
-  const file = fileList[0]
-
+function startEdit(file: File){
   const reader = new FileReader()
   reader.onload = ()=>{
-    if(!canvas_field.value || !btn.value || !zoom_slider.value) return
+    img_url.value = reader.result as string
     isShowEditor.value = true
-    const frameCvs = new FrameCanvas(canvas_field.value)
-    const imgCvs = new ImageCanvas(
-      reader.result as string, canvas_field.value, zoom_slider.value
-    )
-    btn.value.onclick = ()=>{
-      if(!canvas_field.value) return
-      const resultCvs = trim(imgCvs, frameCvs)
-      if(!resultCvs){
-        return
-      }
-      const url = resultCvs.toDataURL()
-      emits('update:modelValue', url)
-      canvas_field.value.innerHTML = ""
-      isShowEditor.value = false
-    }
-  };
+  }
   reader.readAsDataURL(file)
 }
 
+function endEdit(url: string){
+  emits('update:modelValue', url)
+  isShowEditor.value = false
+}
+
 function hide(){
-  if(!canvas_field.value || !fileInput.value) return
-  canvas_field.value.innerHTML = ""
+  if(!fileInput.value) return
   isShowEditor.value = false
   fileInput.value.value = ""
 }
@@ -75,21 +53,15 @@ function reset(){
     <div class="form-group">
       <label class="form-label">ファイルを選択</label>
       <div class="input-group">
-        <input type="file" accept="image/*" class="form-control" @change="startEdit(($event.target as HTMLInputElement).files)" ref="fileInput">
+        <input type="file" accept="image/*" class="form-control" @change="startEdit(($event.target as HTMLInputElement).files![0] as File)" ref="fileInput">
         <button type="button" class="btn" v-if="modelValue" @click="reset">消去</button>
       </div>
     </div>
-    <img v-if="modelValue" :src="modelValue" class="ms-2 ms-sm-auto border border-1 rounded-circle bg-white" width="70" height="70" ref="img">
-    <img v-else src="../assets/human.png" class="ms-2 ms-sm-auto border border-1 rounded-circle bg-white" width="70" height="70" ref="img">
+    <img v-if="modelValue" :src="modelValue" class="ms-2 ms-sm-auto border border-1 rounded-circle bg-white" width="70" height="70">
+    <img v-else src="../assets/human.png" class="ms-2 ms-sm-auto border border-1 rounded-circle bg-white" width="70" height="70">
   </div>
-  <Popup v-show="isShowEditor" @hide-popup="hide">
-    <div id="popup" @click.stop>
-      <div id="canvas_field" ref="canvas_field"></div>
-      <div id="controller-container">
-        <input type="range" value="0" ref="zoom_slider">
-        <button type="button" ref="btn">完了</button>
-      </div>
-    </div>
+  <Popup v-if="isShowEditor" @hide-popup="hide">
+    <ImageEditor :img_url="img_url" @end-edit="endEdit" />
   </Popup>
 </template>
 

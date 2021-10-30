@@ -13,9 +13,9 @@ const fileInput    = ref<HTMLInputElement>()
 
 watchEffect(() => {
   if(isShowEditor.value){
-    document.querySelector('.container')!.setAttribute("style", "position: fixed; overflow: hidden;")
+    document.getElementById('app')!.setAttribute("style", "position: fixed; overflow: hidden;")
   }else{
-    document.querySelector('.container')!.removeAttribute('style')
+    document.getElementById('app')!.removeAttribute('style')
   }
 })
 
@@ -60,7 +60,7 @@ function reset(){
     <img v-if="modelValue" :src="modelValue" class="ms-2 ms-sm-auto border border-1 rounded-circle bg-white" width="70" height="70">
     <img v-else src="../assets/human.png" class="ms-2 ms-sm-auto border border-1 rounded-circle bg-white" width="70" height="70">
   </div>
-  <teleport to="#app">
+  <teleport to="body">
     <Popup v-if="isShowEditor" @hide-popup="hide">
       <ImageEditor :img_url="img_url" @end-edit="endEdit" />
     </Popup>

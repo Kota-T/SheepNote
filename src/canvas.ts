@@ -132,6 +132,8 @@ export class ImageCanvas extends Canvas {
 
         if(this.isOnCvs(initXY.x, initXY.y)){
           parent.onpointermove = innerE=>{
+            innerE.preventDefault();
+            innerE.stopPropagation();
             const currentXY = this.getPointerXYOnCvs(innerE);
 
             this.x += currentXY.x - initXY.x;
@@ -141,7 +143,6 @@ export class ImageCanvas extends Canvas {
       }
       const reset = ()=>{
         parent.onpointermove = null;
-        document.ontouchmove = null;
       }
       parent.onpointerup  = reset;
       parent.onpointerout = reset;

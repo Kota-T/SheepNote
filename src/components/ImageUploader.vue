@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Popup from './Popup.vue'
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { Sheep } from '../models'
 import { FrameCanvas, ImageCanvas, trim } from '../canvas'
 
@@ -13,6 +13,8 @@ const img          = ref<HTMLImageElement>()
 const canvas_field = ref<HTMLDivElement>()
 const zoom_slider  = ref<HTMLInputElement>()
 const btn          = ref<HTMLButtonElement>()
+
+watchEffect(() => document.body.style.overflow = isShowEditor.value ? "hidden" : "auto")
 
 function startEdit(fileList: FileList | null){
   if(

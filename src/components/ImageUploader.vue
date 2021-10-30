@@ -13,9 +13,9 @@ const fileInput    = ref<HTMLInputElement>()
 
 watchEffect(() => {
   if(isShowEditor.value){
-    document.getElementById('app')!.setAttribute("style", "position: fixed; overflow: hidden;")
+    document.querySelector('.container')!.setAttribute("style", "position: fixed; overflow: hidden;")
   }else{
-    document.getElementById('app')!.removeAttribute('style')
+    document.querySelector('.container')!.removeAttribute('style')
   }
 })
 

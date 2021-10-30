@@ -71,11 +71,11 @@ onMounted(()=>{
   }
 })
 
-function isOnCvs(x: number, y: number): boolean {
+function isOnCvs(XY: { x: number, y: number }): boolean {
   return (
-    0 <= x && x <= imgCvsData.width
+    0 <= XY.x && XY.x <= imgCvsData.width
                  &&
-    0 <= y && y <= imgCvsData.height
+    0 <= XY.y && XY.y <= imgCvsData.height
   );
 }
 
@@ -91,7 +91,7 @@ let isMoving = false
 
 function startMove(e: PointerEvent){
   initXY = getPointerXYOnImgCvs(e);
-  isMoving = isOnCvs(initXY.x, initXY.y)
+  isMoving = isOnCvs(initXY)
 }
 
 function move(e: PointerEvent){

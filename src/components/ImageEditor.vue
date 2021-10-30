@@ -207,18 +207,18 @@ function trim(){
     @pointerout="endMove"
     >
       <Canvas
-      :width="frameCvsData.width"
-      :height="frameCvsData.height"
-      :x="frameCvsData.x"
-      :y="frameCvsData.y"
-      ref="frameCvs"
-      />
-      <Canvas
       :width="imgCvsData.width"
       :height="imgCvsData.height"
       :x="imgCvsData.x"
       :y="imgCvsData.y"
       ref="imgCvs"
+      />
+      <Canvas
+      :width="frameCvsData.width"
+      :height="frameCvsData.height"
+      :x="frameCvsData.x"
+      :y="frameCvsData.y"
+      ref="frameCvs"
       />
     </div>
     <div id="controller-container">

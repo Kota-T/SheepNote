@@ -14,7 +14,13 @@ const canvas_field = ref<HTMLDivElement>()
 const zoom_slider  = ref<HTMLInputElement>()
 const btn          = ref<HTMLButtonElement>()
 
-watchEffect(() => document.body.style.overflow = isShowEditor.value ? "hidden" : "auto")
+watchEffect(() => {
+  if(isShowEditor.value){
+    document.body.setAttribute("style", "overflow: hidden; height: 100%;")
+  }else{
+    document.body.removeAttribute('style')
+  }
+})
 
 function startEdit(fileList: FileList | null){
   if(

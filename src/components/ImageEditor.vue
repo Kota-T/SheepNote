@@ -96,7 +96,6 @@ function startMove(e: PointerEvent){
 
 function move(e: PointerEvent){
   if(!isMoving) return
-  e.stopPropagation();
   const currentXY = getPointerXYOnImgCvs(e);
 
   imgCvsData.x += currentXY.x - initXY!.x;

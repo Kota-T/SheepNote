@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { nextTick, onMounted, reactive, ref } from 'vue'
-import { Canvas } from '../canvas-component'
+import { Canvas } from '../canvas'
 
 const props = defineProps<{ img_url: string }>()
 const emits = defineEmits<{ (e: 'end-edit', url: string): void }>()

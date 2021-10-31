@@ -2,7 +2,6 @@
 import Popup from './Popup.vue'
 import { nextTick, ref, watchEffect } from 'vue'
 import { Sheep } from '../models'
-import { FrameCanvas, ImageCanvas, trim } from '../canvas'
 import ImageEditor from './ImageEditor.vue'
 
 const props = defineProps<{ modelValue: string | undefined }>()

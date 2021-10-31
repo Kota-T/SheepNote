@@ -73,8 +73,14 @@ async function search(text: string): Promise<void> {
 function removeSheep(sheep: Sheep): void {
   if(!confirm(`${sheep.name} さんの情報を削除しますか？`)) return
   sheepArray.value.splice(sheepArray.value.indexOf(sheep), 1)
-  if(sheep.id)
+  if(sheep.id){
+    db.talks
+      .where('sheep_id')
+      .equals(sheep.id)
+      .primaryKeys()
+      .then(array=>array.forEach(id=>db.talks.delete(id)))
     db.sheep.delete(sheep.id)
+  }
 }
 </script>
 

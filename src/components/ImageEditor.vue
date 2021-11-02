@@ -111,7 +111,7 @@ function endMove(){
 }
 
 function cancelMove(e: PointerEvent){
-  console.log(e.type)
+  console.log(e)
 }
 
 function resize(valueX: number): void {

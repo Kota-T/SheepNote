@@ -207,7 +207,7 @@ function trim(){
     @pointermove="move"
     @pointerup="endMove"
     @pointerout="endMove"
-    @pointercancel.prevent
+    @pointercancel.prevent="()=>console.log('pointer-cancel')"
     >
       <Canvas
       :width="imgCvsData.width"

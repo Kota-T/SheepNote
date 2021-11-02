@@ -12,6 +12,17 @@ const fileInput    = ref<HTMLInputElement>()
 
 const img_url = ref("")
 
+watchEffect(()=>{
+  const app = document.getElementById('app')!
+  if(isShowEditor.value){
+    app.style.overflow = "hidden"
+    app.ontouchmove = e=>e.preventDefault()
+  }else{
+    app.removeAttribute('style')
+    app.ontouchmove = undefined
+  }
+})
+
 function startEdit(file: File){
   const reader = new FileReader()
   reader.onload = ()=>{

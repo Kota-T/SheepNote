@@ -13,14 +13,7 @@ const fileInput    = ref<HTMLInputElement>()
 const img_url = ref("")
 
 watchEffect(()=>{
-  const app = document.getElementById('app')!
-  if(isShowEditor.value){
-    app.style.position = 'fixed'
-    app.ontouchmove = e=>e.preventDefault()
-  }else{
-    app.removeAttribute('style')
-    app.ontouchmove = null
-  }
+  document.getElementById('app')!.ontouchmove = isShowEditor.value ? e=>e.preventDefault() : null
 })
 
 function startEdit(file: File){

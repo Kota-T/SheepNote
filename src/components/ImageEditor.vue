@@ -201,7 +201,7 @@ function trim(){
 </script>
 
 <template>
-  <div id="popup">
+  <div id="popup" @click.stop>
     <div id="canvas_field"
     @pointerdown="startMove"
     @pointermove="move"

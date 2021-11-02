@@ -96,7 +96,6 @@ function startMove(e: PointerEvent){
 
 function move(e: PointerEvent){
   if(!isMoving) return
-  e.preventDefault()
   const currentXY = getPointerXYOnImgCvs(e)
 
   imgCvsData.x += currentXY.x - initXY!.x
@@ -201,8 +200,8 @@ function trim(){
 <template>
   <div id="popup" @click.stop>
     <div id="canvas_field"
-    @pointerdown="startMove"
-    @pointermove="move"
+    @pointerdown.prevent="startMove"
+    @pointermove.prevent="move"
     @pointerup="endMove"
     @pointerout="endMove"
     >

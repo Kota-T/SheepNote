@@ -2,6 +2,10 @@
   <div
   id="popup-background"
   @click.stop="$emit('hide-popup');"
+  >
+    <slot></slot>
+  </div>
+  <!--
   @mousedown.stop
   @mousemove.stop
   @pointerdown.stop
@@ -9,9 +13,7 @@
   @scroll.stop
   @touchstart.stop
   @touchmove.stop
-  >
-    <slot></slot>
-  </div>
+  -->
 </template>
 
 <style>

@@ -17,11 +17,9 @@ watchEffect(()=>{
   if(isShowEditor.value){
     app.style.position = 'fixed'
     app.ontouchmove = e=>e.preventDefault()
-    app.onscroll = e=>e.preventDefault()
   }else{
     app.removeAttribute('style')
     app.ontouchmove = null
-    app.onscroll = null
   }
 })
 

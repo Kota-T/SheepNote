@@ -92,7 +92,6 @@ let isMoving = false
 function startMove(e: PointerEvent){
   const XY = getPointerXYOnImgCvs(e)
   if(isOnImgCvs(XY)){
-    console.log("start moving")
     isMoving = true
     initXY = XY
   }
@@ -100,7 +99,6 @@ function startMove(e: PointerEvent){
 
 function move(e: PointerEvent){
   if(!isMoving) return
-  console.log("moving")
   const currentXY = getPointerXYOnImgCvs(e)
 
   imgCvsData.x += currentXY.x - initXY!.x
@@ -108,7 +106,6 @@ function move(e: PointerEvent){
 }
 
 function endMove(){
-  console.log("end moving")
   isMoving = false
   initXY = undefined
 }
@@ -208,8 +205,8 @@ function trim(){
     <div id="canvas_field"
     @pointerdown="startMove"
     @pointermove="move"
-    @pointerup="endMove"
-    @pointerout="endMove"
+    @pointerup="endMove();console.log('pointer up');"
+    @pointerout="endMove();console.log('pointer out');"
     >
       <Canvas
       :width="imgCvsData.width"

@@ -1,19 +1,7 @@
 <template>
-  <div
-  id="popup-background"
-  @click="$emit('hide-popup');"
-  >
+  <div id="popup-background" @click="$emit('hide-popup')">
     <slot></slot>
   </div>
-  <!--
-  @mousedown.stop
-  @mousemove.stop
-  @pointerdown.stop
-  @pointermove.stop
-  @scroll.stop
-  @touchstart.stop
-  @touchmove.stop
-  -->
 </template>
 
 <style>

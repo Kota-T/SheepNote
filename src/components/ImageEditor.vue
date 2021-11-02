@@ -71,7 +71,7 @@ onMounted(()=>{
   }
 })
 
-function isOnCvs(XY: { x: number, y: number }): boolean {
+function isOnImgCvs(XY: { x: number, y: number }): boolean {
   return (
     0 <= XY.x && XY.x <= imgCvsData.width
                  &&
@@ -90,8 +90,11 @@ let initXY: { x: number, y: number } | undefined;
 let isMoving = false
 
 function startMove(e: PointerEvent){
-  initXY = getPointerXYOnImgCvs(e)
-  isMoving = isOnCvs(initXY)
+  const XY = getPointerXYOnImgCvs(e)
+  if(isOnImgCvs(XY)){
+    isMoving = true
+    initXY = XY
+  }
 }
 
 function move(e: PointerEvent){
@@ -198,10 +201,10 @@ function trim(){
 </script>
 
 <template>
-  <div id="popup" @click.stop>
+  <div id="popup">
     <div id="canvas_field"
-    @pointerdown.prevent="startMove"
-    @pointermove.prevent="move"
+    @pointerdown="startMove"
+    @pointermove="move"
     @pointerup="endMove"
     @pointerout="endMove"
     >

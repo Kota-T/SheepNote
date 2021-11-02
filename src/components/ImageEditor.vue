@@ -99,6 +99,7 @@ function startMove(e: PointerEvent){
 
 function move(e: PointerEvent){
   if(!isMoving) return
+  console.log("moving")
   const currentXY = getPointerXYOnImgCvs(e)
 
   imgCvsData.x += currentXY.x - initXY!.x

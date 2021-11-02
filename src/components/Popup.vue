@@ -25,6 +25,6 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 200;
+  z-index: 1200;
 }
 </style>

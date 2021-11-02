@@ -105,7 +105,8 @@ function move(e: PointerEvent){
   imgCvsData.y += currentXY.y - initXY!.y
 }
 
-function endMove(){
+function endMove(e: PointerEvent){
+  console.log(e.type)
   isMoving = false
   initXY = undefined
 }
@@ -205,8 +206,8 @@ function trim(){
     <div id="canvas_field"
     @pointerdown="startMove"
     @pointermove="move"
-    @pointerup="endMove();console.log('pointer up');"
-    @pointerout="endMove();console.log('pointer out');"
+    @pointerup="endMove"
+    @pointerout="endMove"
     >
       <Canvas
       :width="imgCvsData.width"

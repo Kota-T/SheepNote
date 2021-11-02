@@ -110,10 +110,6 @@ function endMove(){
   initXY = undefined
 }
 
-function cancelMove(e: PointerEvent){
-  console.log(e)
-}
-
 function resize(valueX: number): void {
   const valueY = valueX * img.naturalHeight / img.naturalWidth
   const beforeWidth  = imgCvsData.width
@@ -211,7 +207,6 @@ function trim(){
     @pointermove="move"
     @pointerup="endMove"
     @pointerout="endMove"
-    @pointercancel="cancelMove"
     >
       <Canvas
       :width="imgCvsData.width"
@@ -258,6 +253,7 @@ function trim(){
   height: calc(100% - 50px);
   overflow: hidden;
   position: relative;
+  touch-action:none;
 }
 #controller-container{
   display: flex;

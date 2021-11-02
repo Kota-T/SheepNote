@@ -105,8 +105,7 @@ function move(e: PointerEvent){
   imgCvsData.y += currentXY.y - initXY!.y
 }
 
-function endMove(e: PointerEvent){
-  console.log(e.type)
+function endMove(){
   isMoving = false
   initXY = undefined
 }
@@ -208,6 +207,7 @@ function trim(){
     @pointermove="move"
     @pointerup="endMove"
     @pointerout="endMove"
+    @pointercancel.prevent
     >
       <Canvas
       :width="imgCvsData.width"

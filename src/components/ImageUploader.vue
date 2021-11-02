@@ -12,10 +12,6 @@ const fileInput    = ref<HTMLInputElement>()
 
 const img_url = ref("")
 
-watchEffect(()=>{
-  document.getElementById('app')!.ontouchmove = isShowEditor.value ? e=>e.preventDefault() : null
-})
-
 function startEdit(file: File){
   const reader = new FileReader()
   reader.onload = ()=>{
@@ -55,7 +51,7 @@ function reset(){
     <img v-if="modelValue" :src="modelValue" class="ms-2 ms-sm-auto border border-1 rounded-circle bg-white" width="70" height="70">
     <img v-else src="../assets/human.png" class="ms-2 ms-sm-auto border border-1 rounded-circle bg-white" width="70" height="70">
   </div>
-  <teleport to="body">
+  <teleport to="#app">
     <Popup v-if="isShowEditor" @hide-popup="hide">
       <ImageEditor :img_url="img_url" @end-edit="endEdit" />
     </Popup>

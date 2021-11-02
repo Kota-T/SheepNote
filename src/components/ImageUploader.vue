@@ -15,7 +15,7 @@ const img_url = ref("")
 watchEffect(()=>{
   const app = document.getElementById('app')!
   if(isShowEditor.value){
-    app.style.overflow = 'hidden'
+    app.style.position = 'fixed'
     app.ontouchmove = e=>e.preventDefault()
     app.onscroll = e=>e.preventDefault()
   }else{

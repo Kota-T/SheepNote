@@ -28,15 +28,15 @@ onMounted(()=>{
   frameCvsData.width  = FRAME_SIZE
   frameCvsData.height = FRAME_SIZE
   nextTick(()=>{
-    frameCvs.value.ctx.strokeStyle = "red";
-    frameCvs.value.ctx.lineWidth = 1;
-    frameCvs.value.ctx.strokeRect(0, 0, FRAME_SIZE, FRAME_SIZE);
+    frameCvs.value.ctx.strokeStyle = "red"
+    frameCvs.value.ctx.lineWidth = 1
+    frameCvs.value.ctx.strokeRect(0, 0, FRAME_SIZE, FRAME_SIZE)
   })
 
   img = new Image()
   img.src = props.img_url
   img.onload = () => {
-    const ratio = img.naturalHeight / img.naturalWidth;
+    const ratio = img.naturalHeight / img.naturalWidth
     if(img.naturalWidth < FRAME_SIZE || img.naturalHeight < FRAME_SIZE){
       slider_min.value = 0
       if(ratio > 1){
@@ -49,8 +49,8 @@ onMounted(()=>{
         slider_max.value = FRAME_SIZE / ratio
       }
     }else{
-      imgCvsData.width  = img.naturalWidth;
-      imgCvsData.height = img.naturalHeight;
+      imgCvsData.width  = img.naturalWidth
+      imgCvsData.height = img.naturalHeight
       if(ratio > 1){
         slider_min.value = FRAME_SIZE - imgCvsData.width
       }else{
@@ -62,11 +62,11 @@ onMounted(()=>{
     originalWidth = imgCvsData.width
     originalHeight = imgCvsData.height
 
-    imgCvsData.x = (FRAME_SIZE + 30 - imgCvsData.width) / 2;
-    imgCvsData.y = (FRAME_SIZE + 30 - imgCvsData.height) / 2;
+    imgCvsData.x = (FRAME_SIZE + 30 - imgCvsData.width) / 2
+    imgCvsData.y = (FRAME_SIZE + 30 - imgCvsData.height) / 2
 
     nextTick(()=>{
-      imgCvs.value.ctx.drawImage(img, 0, 0, imgCvsData.width, imgCvsData.height);
+      imgCvs.value.ctx.drawImage(img, 0, 0, imgCvsData.width, imgCvsData.height)
     })
   }
 })
@@ -76,13 +76,13 @@ function isOnCvs(XY: { x: number, y: number }): boolean {
     0 <= XY.x && XY.x <= imgCvsData.width
                  &&
     0 <= XY.y && XY.y <= imgCvsData.height
-  );
+  )
 }
 
 function getPointerXYOnImgCvs(event: PointerEvent): { x: number, y: number } {
-  const cvs_rect = imgCvs.value.canvas.getBoundingClientRect();
-  const x = event.clientX - cvs_rect.left;
-  const y = event.clientY - cvs_rect.top;
+  const cvs_rect = imgCvs.value.canvas.getBoundingClientRect()
+  const x = event.clientX - cvs_rect.left
+  const y = event.clientY - cvs_rect.top
   return { x, y }
 }
 
@@ -90,16 +90,17 @@ let initXY: { x: number, y: number } | undefined;
 let isMoving = false
 
 function startMove(e: PointerEvent){
-  initXY = getPointerXYOnImgCvs(e);
+  initXY = getPointerXYOnImgCvs(e)
   isMoving = isOnCvs(initXY)
 }
 
 function move(e: PointerEvent){
   if(!isMoving) return
-  const currentXY = getPointerXYOnImgCvs(e);
+  e.preventDefault()
+  const currentXY = getPointerXYOnImgCvs(e)
 
-  imgCvsData.x += currentXY.x - initXY!.x;
-  imgCvsData.y += currentXY.y - initXY!.y;
+  imgCvsData.x += currentXY.x - initXY!.x
+  imgCvsData.y += currentXY.y - initXY!.y
 }
 
 function endMove(){

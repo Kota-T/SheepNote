@@ -10,14 +10,6 @@ const emits = defineEmits<{ (e: 'update:modelValue', modelValue: string | undefi
 const isShowEditor = ref(false)
 const fileInput    = ref<HTMLInputElement>()
 
-watchEffect(() => {
-  if(isShowEditor.value){
-    document.getElementById('app')!.setAttribute('style', "position: fixed; overflow: hidden;")
-  }else{
-    document.getElementById('app')!.removeAttribute('style')
-  }
-})
-
 const img_url = ref("")
 
 function startEdit(file: File){

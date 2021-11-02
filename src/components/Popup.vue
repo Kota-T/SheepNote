@@ -1,7 +1,7 @@
 <template>
   <div
   id="popup-background"
-  @click.stop="$emit('hide-popup');"
+  @click="$emit('hide-popup');"
   >
     <slot></slot>
   </div>

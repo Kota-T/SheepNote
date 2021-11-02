@@ -92,6 +92,7 @@ let isMoving = false
 function startMove(e: PointerEvent){
   const XY = getPointerXYOnImgCvs(e)
   if(isOnImgCvs(XY)){
+    console.log("start moving")
     isMoving = true
     initXY = XY
   }
@@ -107,6 +108,7 @@ function move(e: PointerEvent){
 }
 
 function endMove(){
+  console.log("end moving")
   isMoving = false
   initXY = undefined
 }

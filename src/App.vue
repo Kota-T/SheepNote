@@ -12,7 +12,7 @@ async function reset(): Promise<void> {
 <template>
   <nav class="nav sticky-top">
     <router-link to="/" class="nav-link position-sticky start-0">
-      <img src="/hitsuji.png" height="60">
+      <img src="./assets/hitsuji.png" height="60">
     </router-link>
     <router-link to="/" class="nav-link">トップ</router-link>
     <router-link to="/register" class="nav-link">登録</router-link>

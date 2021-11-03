@@ -1,7 +1,9 @@
 <template>
-  <div id="popup-background" @click="$emit('hide-popup')">
-    <slot></slot>
-  </div>
+  <teleport to="#app">
+    <div id="popup-background" @click="$emit('hide-popup')">
+      <slot></slot>
+    </div>
+  </teleport>
 </template>
 
 <style>

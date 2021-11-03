@@ -91,10 +91,10 @@ let isMoving = false
 
 function startMove(e: PointerEvent){
   const XY = getPointerXYOnImgCvs(e)
-  if(isOnImgCvs(XY)){
+  //if(isOnImgCvs(XY)){
     isMoving = true
     initXY = XY
-  }
+  //}
 }
 
 function move(e: PointerEvent){
@@ -108,6 +108,28 @@ function move(e: PointerEvent){
 function endMove(){
   isMoving = false
   initXY = undefined
+}
+
+let oldTouchesDiff: number
+
+function getTouchesDiff(touches: TouchList): number {
+  const x1 = touches[0].clientX
+  const y1 = touches[0].clientY
+
+  const x2 = touches[1].clientX
+  const y2 = touches[1].clientY
+  return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))
+}
+
+function startTouches(e: TouchEvent){
+  if(e.touches.length === 2 && Array.from(e.touches).reduce((touch: Touch) => touch))
+    oldTouchesDiff = getTouchesDiff(e.touches)
+}
+
+function zoomWithTouches(e: TouchEvent){
+  if(e.touches.length !== 2) return
+  e.preventDefault()
+  const curDiff = getTouchesDiff(e.touches)
 }
 
 function resize(valueX: number): void {

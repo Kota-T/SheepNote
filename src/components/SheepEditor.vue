@@ -4,6 +4,7 @@ import TalkEditor from './TalkEditor.vue'
 import { ref, reactive, onMounted } from 'vue'
 import { Sheep, Group, Talk } from '../models'
 import db from '../db'
+import { isMobile } from '../util'
 
 const props = defineProps<{ sheep_id: string }>()
 
@@ -11,9 +12,12 @@ const data = reactive<Sheep>({} as Sheep)
 const groupArray = ref<Group[]>([])
 const talkArray = ref<Talk[]>([])
 
+const showLineLink = ref(false)
+
 let tmp_talk_id = 0
 
 onMounted(async ()=>{
+  showLineLink.value = isMobile()
   const sheep_id = Number(props.sheep_id)
   Object.assign(data, await db.sheep.get(sheep_id))
   groupArray.value = await db.groups.toArray()
@@ -126,6 +130,9 @@ function removeTalk(talk: Talk): void {
   <div class="form-group">
     <label class="form-label">メール</label>
     <input type="email" class="form-control" v-model="data.email">
+  </div>
+  <div class="form-group" v-if="showLineLink">
+    <label class="form-label">LINE <a href="https://line.me/R/nv/chat">https://line.me/R/nv/chat</a></label>
   </div>
   <div class="form-group">
     <label class="form-label">グループ</label>

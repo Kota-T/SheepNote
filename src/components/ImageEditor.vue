@@ -5,8 +5,11 @@ import { Canvas } from '../canvas'
 const props = defineProps<{ img_url: string }>()
 const emits = defineEmits<{ (e: 'end-edit', url: string): void }>()
 
-const slider_min = ref(0)
-const slider_max = ref(0)
+const sliderData = reactive({
+  min: 0,
+  max: 0,
+  value: 0
+})
 const frameCvs = ref()
 const frameCvsData = reactive({
   width: 0,
@@ -38,25 +41,25 @@ onMounted(()=>{
   img.onload = () => {
     const ratio = img.naturalHeight / img.naturalWidth
     if(img.naturalWidth < FRAME_SIZE || img.naturalHeight < FRAME_SIZE){
-      slider_min.value = 0
+      sliderData.min = 0
       if(ratio > 1){
         imgCvsData.width  = FRAME_SIZE
         imgCvsData.height = FRAME_SIZE * ratio
-        slider_max.value = FRAME_SIZE
+        sliderData.max = FRAME_SIZE
       }else{
         imgCvsData.width  = FRAME_SIZE / ratio
         imgCvsData.height = FRAME_SIZE
-        slider_max.value = FRAME_SIZE / ratio
+        sliderData.max = FRAME_SIZE / ratio
       }
     }else{
       imgCvsData.width  = img.naturalWidth
       imgCvsData.height = img.naturalHeight
       if(ratio > 1){
-        slider_min.value = FRAME_SIZE - imgCvsData.width
+        sliderData.min = FRAME_SIZE - imgCvsData.width
       }else{
-        slider_min.value = (FRAME_SIZE - imgCvsData.height) / ratio
+        sliderData.min = (FRAME_SIZE - imgCvsData.height) / ratio
       }
-      slider_max.value = -slider_min.value
+      sliderData.max = -sliderData.min
     }
 
     originalWidth = imgCvsData.width
@@ -71,14 +74,6 @@ onMounted(()=>{
   }
 })
 
-function isOnImgCvs(XY: { x: number, y: number }): boolean {
-  return (
-    0 <= XY.x && XY.x <= imgCvsData.width
-                 &&
-    0 <= XY.y && XY.y <= imgCvsData.height
-  )
-}
-
 function getPointerXYOnImgCvs(event: PointerEvent): { x: number, y: number } {
   const cvs_rect = imgCvs.value.canvas.getBoundingClientRect()
   const x = event.clientX - cvs_rect.left
@@ -90,11 +85,8 @@ let initXY: { x: number, y: number } | undefined;
 let isMoving = false
 
 function startMove(e: PointerEvent){
-  const XY = getPointerXYOnImgCvs(e)
-  //if(isOnImgCvs(XY)){
-    isMoving = true
-    initXY = XY
-  //}
+  isMoving = true
+  initXY = getPointerXYOnImgCvs(e)
 }
 
 function move(e: PointerEvent){
@@ -122,7 +114,7 @@ function getTouchesDiff(touches: TouchList): number {
 }
 
 function startTouches(e: TouchEvent){
-  if(e.touches.length === 2 && Array.from(e.touches).reduce((touch: Touch) => touch))
+  if(e.touches.length === 2)
     oldTouchesDiff = getTouchesDiff(e.touches)
 }
 
@@ -248,9 +240,9 @@ function trim(){
     <div id="controller-container">
       <input
       type="range"
-      :value="0"
-      :min="slider_min"
-      :max="slider_max"
+      :min="sliderData.min"
+      :max="sliderData.max"
+      v-model="sliderData.value"
       @input="resize(Number(($event.target as HTMLInputElement).value))"
       >
       <button type="button" @click="trim">完了</button>

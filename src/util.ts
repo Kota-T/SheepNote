@@ -4,6 +4,6 @@ export function isMobile(): boolean {
 
 export function flattenShallowly(arr: any[]): any[] {
   return arr.reduce((acc: any[], val: any) => {
-    Array.isArray(val) ? acc.concat(val) : acc.push(val)
+    return Array.isArray(val) ? acc.concat(val) : [...acc, val]
   }, [])
 }

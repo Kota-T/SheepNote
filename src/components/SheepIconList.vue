@@ -10,7 +10,13 @@ onMounted(async ()=>{
   sheepArray.value = await db.sheep.toArray(sortSheep)
 })
 
-const distinctObjectArray = (arr: { id?: number }[]) => Array.from(new Map((arr as { id: number }[]).map(obj => [obj.id!, obj])).values())
+const distinctSheepArray = (arr: Sheep[]) => {
+  return Array.from(
+    new Map(
+      arr.map(sheep => [sheep.id, sheep])
+    ).values()
+  )
+}
 
 async function search(text: string): Promise<void> {
   if(!text){
@@ -62,14 +68,14 @@ async function search(text: string): Promise<void> {
           )
         )
         .then(arr => Promise.all(arr) as Promise<Sheep[]>)
-        .then(distinctObjectArray)
+        .then(distinctSheepArray)
         .catch(err=>console.error("talks", err))
     )
   )
   .then(flattenShallowly)
 
   sheepArray.value = await sortSheep(
-    distinctObjectArray(
+    distinctSheepArray(
       flattenShallowly(
         [sheepSearch, groupsSearch, talksSearch]
       )

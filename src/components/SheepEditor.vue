@@ -149,7 +149,7 @@ function removeTalk(talk: Talk): void {
   <div class="form-group" v-if="showLineLink">
     <label class="form-label">LINE</label>
     <div>
-      <a href="https://line.me/R/nv/chat">https://line.me/R/nv/chat</a>
+      <a href="https://line.me/R/nv">https://line.me/R/nv</a>
     </div>
   </div>
   <div class="form-group">

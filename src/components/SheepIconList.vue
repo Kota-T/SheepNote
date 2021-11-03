@@ -3,13 +3,13 @@ import SheepIcon from './SheepIcon.vue'
 import { ref, onMounted } from 'vue'
 import { Sheep } from '../models'
 import db, { sortSheep } from '../db'
+import { flattenShallowly } from '../util'
 
 const sheepArray = ref<Sheep[]>([])
 onMounted(async ()=>{
   sheepArray.value = await db.sheep.toArray(sortSheep)
 })
 
-const flattenShallowly = (arr: any[]) => arr.reduce((acc: any[], val: any[]) => acc.concat(val), [])
 const distinctObjectArray = (arr: { id?: number }[]) => Array.from(new Map((arr as { id: number }[]).map(obj => [obj.id!, obj])).values())
 
 async function search(text: string): Promise<void> {
@@ -68,7 +68,13 @@ async function search(text: string): Promise<void> {
   )
   .then(flattenShallowly)
 
-  sheepArray.value = await sortSheep(distinctObjectArray(flattenShallowly([sheepSearch, groupsSearch, talksSearch])) as Sheep[])
+  sheepArray.value = await sortSheep(
+    distinctObjectArray(
+      flattenShallowly(
+        [sheepSearch, groupsSearch, talksSearch]
+      )
+    ) as Sheep[]
+  )
 }
 function removeSheep(sheep: Sheep): void {
   if(!confirm(`${sheep.name} さんの情報を削除しますか？`)) return
@@ -86,7 +92,12 @@ function removeSheep(sheep: Sheep): void {
 
 <template>
   <div class="form-group">
-    <input type="text" class="form-control" placeholder="検索" @input="search(($event.target as HTMLInputElement).value)">
+    <input
+    type="text"
+    class="form-control"
+    placeholder="検索"
+    @input="search(($event.target as HTMLInputElement).value)"
+    >
   </div>
   <SheepIcon
   v-for="sheep in sheepArray"

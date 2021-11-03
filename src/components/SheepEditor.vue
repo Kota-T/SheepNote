@@ -37,7 +37,7 @@ onMounted(async ()=>{
     .sortBy('date')
 })
 
-function saveSheep(){
+function saveSheep(): void {
   if(data.id && data.name)
     db.sheep.update(data.id, data)
 }

@@ -10,7 +10,10 @@ const group_name = ref("")
 const sheepArray = ref<Sheep[]>([])
 onMounted(async ()=>{
   db.groups.get(group_id).then(group => { if(group) group_name.value = group.name })
-  sheepArray.value = await db.sheep.where('group_id').equals(group_id).toArray(sortSheep)
+  sheepArray.value = await db.sheep
+    .where('group_id')
+    .equals(group_id)
+    .toArray(sortSheep)
 })
 function removeSheep(sheep: Sheep): void {
   if(!confirm(`${sheep.name} さんの情報をグループから削除しますか？`)) return

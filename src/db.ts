@@ -37,7 +37,15 @@ const db = new class SheepNoteDB extends Dexie {
 
 export default db
 
-export const compareSheep = async (f: Sheep, s: Sheep) => {
+export const distinctTableDataArray = <T extends { id?: number }>(arr: T[]): T[] => {
+  return Array.from(
+    new Map(
+      arr.map(td => [td.id, td])
+    ).values()
+  )
+}
+
+export const compareSheep = async (f: Sheep, s: Sheep): Promise<boolean> => {
   if(!f.last_talk_id && s.last_talk_id)
     return false
   if(!f.last_talk_id || !s.last_talk_id)
@@ -52,7 +60,8 @@ export const compareSheep = async (f: Sheep, s: Sheep) => {
     return false
   return true
 }
-export const sortSheep = async (arr: Sheep[]) => {
+
+export const sortSheep = async (arr: Sheep[]): Promise<Sheep[]> => {
   for(let i = 0; i < arr.length - 1; i++){
     for(let j = i + 1; j < arr.length; j++){
       if(await compareSheep(arr[i], arr[j]) === false){

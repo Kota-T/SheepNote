@@ -6,7 +6,7 @@ defineEmits<{ (e: 'talk-save', talk: Talk): void, (e: 'talk-remove', talk: Talk)
 const props = defineProps<{ talk: Talk }>()
 const data = reactive<Talk>(props.talk)
 
-function update(){
+function update(): void {
   data.date = new Date(data.date.getTime())
 }
 

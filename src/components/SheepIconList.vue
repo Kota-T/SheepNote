@@ -2,21 +2,13 @@
 import SheepIcon from './SheepIcon.vue'
 import { ref, onMounted } from 'vue'
 import { Sheep } from '../models'
-import db, { sortSheep } from '../db'
+import db, { distinctTableDataArray, sortSheep } from '../db'
 import { flattenShallowly } from '../util'
 
 const sheepArray = ref<Sheep[]>([])
 onMounted(async ()=>{
   sheepArray.value = await db.sheep.toArray(sortSheep)
 })
-
-const distinctSheepArray = (arr: Sheep[]) => {
-  return Array.from(
-    new Map(
-      arr.map(sheep => [sheep.id, sheep])
-    ).values()
-  )
-}
 
 async function search(text: string): Promise<void> {
   if(!text){
@@ -68,18 +60,18 @@ async function search(text: string): Promise<void> {
           )
         )
         .then(arr => Promise.all(arr) as Promise<Sheep[]>)
-        .then(distinctSheepArray)
+        .then(arr => distinctTableDataArray<Sheep>(arr))
         .catch(err=>console.error("talks", err))
     )
   )
   .then(flattenShallowly)
 
   sheepArray.value = await sortSheep(
-    distinctSheepArray(
+    distinctTableDataArray<Sheep>(
       flattenShallowly(
         [sheepSearch, groupsSearch, talksSearch]
       )
-    ) as Sheep[]
+    )
   )
 }
 function removeSheep(sheep: Sheep): void {

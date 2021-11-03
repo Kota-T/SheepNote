@@ -9,19 +9,22 @@ onMounted(async ()=>{
   groupArray.value = await db.groups.toArray()
 })
 
-function addGroup(){
+function addGroup(): void {
   groupArray.value.push({} as Group)
 }
-function saveGroup(new_group: Group){
+function saveGroup(new_group: Group): void {
   if(new_group.name && groupArray.value.reduce((acc, group) => acc + (group.name === new_group.name ? 1 : 0), 0) === 1)
     db.groups.put(new_group).then(id => new_group.id = id)
 }
-function removeGroup(group: Group){
+function removeGroup(group: Group): void {
   if(group.id && !confirm(`グループ：${group.name} を削除しますか？`)) return
   groupArray.value.splice(groupArray.value.indexOf(group), 1)
   if(group.id){
     db.groups.delete(group.id)
-    db.sheep.where('group_id').equals(group.id).modify({ group_id: null })
+    db.sheep
+      .where('group_id')
+      .equals(group.id)
+      .modify({ group_id: null })
   }
 }
 </script>

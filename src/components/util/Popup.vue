@@ -1,3 +1,7 @@
+<script setup lang="ts">
+defineEmits<{ (e: 'hide-popup'): void }>()
+</script>
+
 <template>
   <teleport to="#app">
     <div id="popup-background" @click="$emit('hide-popup')">

@@ -100,7 +100,7 @@ function unwrapReactive(talk: Talk): Talk {
     </div>
     <div class="form-group">
       <label class="form-label">話した内容</label>
-      <textarea class="form-control" v-model="data.details"></textarea>
+      <textarea class="form-control" v-model="data.details" v-textarea-resize></textarea>
     </div>
   </div>
 </template>

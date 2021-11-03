@@ -134,7 +134,7 @@ function removeTalk(talk: Talk): void {
   </div>
   <div class="form-group">
     <label class="form-label">住所</label>
-    <textarea class="form-control" v-model="data.address"></textarea>
+    <textarea class="form-control" v-model="data.address" v-textarea-resize></textarea>
   </div>
   <div class="form-group">
     <label class="form-label">電話番号</label>
@@ -165,7 +165,7 @@ function removeTalk(talk: Talk): void {
   </div>
   <div class="form-group">
     <label class="form-label">どんな人?</label>
-    <textarea class="form-control" v-model="data.note"></textarea>
+    <textarea class="form-control" v-model="data.note" v-textarea-resize></textarea>
   </div>
   <button type="button" class="btn w-100 mb-2" @click="saveSheep">保存</button>
   <div class="form-label d-flex">

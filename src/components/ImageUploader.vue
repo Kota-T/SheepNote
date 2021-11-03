@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import Popup from './Popup.vue'
 import { nextTick, ref, watchEffect } from 'vue'
 import { Sheep } from '../models'
 import ImageEditor from './ImageEditor.vue'
 
-const props = defineProps<{ modelValue: string | undefined }>()
-const emits = defineEmits<{ (e: 'update:modelValue', modelValue: string | undefined): void }>()
+const props = defineProps<{ modelValue?: string }>()
+const emits = defineEmits<{ (e: 'update:modelValue', modelValue?: string): void }>()
 
 const isShowEditor = ref(false)
 const fileInput    = ref<HTMLInputElement>()
@@ -55,44 +54,3 @@ function reset(){
     <ImageEditor :img_url="img_url" @end-edit="endEdit" />
   </Popup>
 </template>
-
-<style>
-#popup{
-  width: 400px;
-  height: 450px;
-}
-@media screen and (max-width: 500px) {
-  #popup{
-    width: 80vw;
-    height: calc(80vw + 50px);
-  }
-}
-#canvas_field{
-  background-color: #fff;
-  width: 100%;
-  height: calc(100% - 50px);
-  overflow: hidden;
-  position: relative;
-}
-#controller-container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: skyblue;
-  width: 100%;
-  height: 50px;
-}
-#controller-container button{
-  width: 60px;
-  height: 30px;
-  color: white;
-  background-color: #ee989c;
-  font-size: 15px;
-  border-radius: 5px;
-  margin-left: 20px;
-  white-space: nowrap;
-}
-#controller-container button:hover{
-  cursor: pointer;
-}
-</style>

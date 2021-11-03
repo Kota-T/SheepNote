@@ -9,7 +9,12 @@ const group_id = Number(props.group_id)
 const group_name = ref("")
 const sheepArray = ref<Sheep[]>([])
 onMounted(async ()=>{
-  db.groups.get(group_id).then(group => { if(group) group_name.value = group.name })
+  db.groups
+    .get(group_id)
+    .then(group => {
+      if(group)
+        group_name.value = group.name
+    })
   sheepArray.value = await db.sheep
     .where('group_id')
     .equals(group_id)

@@ -13,8 +13,17 @@ function addGroup(): void {
   groupArray.value.push({} as Group)
 }
 function saveGroup(new_group: Group): void {
-  if(new_group.name && groupArray.value.reduce((acc, group) => acc + (group.name === new_group.name ? 1 : 0), 0) === 1)
-    db.groups.put(new_group).then(id => new_group.id = id)
+  if(
+    new_group.name &&
+    groupArray.value.reduce(
+      (acc, group) => acc + (group.name === new_group.name ? 1 : 0),
+      0
+    ) === 1
+  ){
+    db.groups
+      .put(new_group)
+      .then(id => new_group.id = id)
+  }
 }
 function removeGroup(group: Group): void {
   if(group.id && !confirm(`グループ：${group.name} を削除しますか？`)) return

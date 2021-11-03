@@ -19,8 +19,8 @@ export const router = createRouter({
       component: RegisterSheep
     },
     {
-      path: '/:sheep_id',
-      name: 'edit',
+      path: '/sheep/:sheep_id',
+      name: 'sheep',
       component: SheepEditor,
       props: true
     },

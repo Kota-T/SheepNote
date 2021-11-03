@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ImageUploader from './ImageUploader.vue'
 import TalkEditor from './TalkEditor.vue'
-import { ref, reactive, onMounted } from 'vue'
+import { computed, ref, reactive, onMounted } from 'vue'
 import { Sheep, Group, Talk } from '../models'
 import db from '../db'
 import { isMobile } from '../util'
@@ -9,10 +9,19 @@ import { isMobile } from '../util'
 const props = defineProps<{ sheep_id: string }>()
 
 const data = reactive<Sheep>({} as Sheep)
-const groupArray = ref<Group[]>([])
-const talkArray = ref<Talk[]>([])
+const phone_numberValidator = computed(()=>{
+  if(data.phone_number)
+    return `tel:${ data.phone_number }`
+})
+const emailValidator = computed(()=>{
+  if(data.email)
+    return `mailto:${ data.email }`
+})
 
 const showLineLink = ref(false)
+
+const groupArray = ref<Group[]>([])
+const talkArray = ref<Talk[]>([])
 
 let tmp_talk_id = 0
 
@@ -127,14 +136,14 @@ function removeTalk(talk: Talk): void {
     <label class="form-label">電話番号</label>
     <div class="input-group">
       <input type="tel" class="form-control" v-model="data.phone_number">
-      <a class="btn" :href="`tel:${ data.phone_number }`">発信</a>
+      <a class="btn" :href="phone_numberValidator">発信</a>
     </div>
   </div>
   <div class="form-group">
     <label class="form-label">メール</label>
     <div class="input-group">
       <input type="email" class="form-control" v-model="data.email">
-      <a class="btn" :href="`mailto:${ data.email }`">作成</a>
+      <a class="btn" :href="emailValidator">作成</a>
     </div>
   </div>
   <div class="form-group" v-if="showLineLink">

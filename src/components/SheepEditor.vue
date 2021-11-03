@@ -125,14 +125,23 @@ function removeTalk(talk: Talk): void {
   </div>
   <div class="form-group">
     <label class="form-label">電話番号</label>
-    <input type="tel" class="form-control" v-model="data.phone_number">
+    <div class="input-group">
+      <input type="tel" class="form-control" v-model="data.phone_number">
+      <a class="btn" :href="`tel:${ data.phone_number }`">発信</a>
+    </div>
   </div>
   <div class="form-group">
     <label class="form-label">メール</label>
-    <input type="email" class="form-control" v-model="data.email">
+    <div class="input-group">
+      <input type="email" class="form-control" v-model="data.email">
+      <a class="btn" :href="`mailto:${ data.email }`">作成</a>
+    </div>
   </div>
   <div class="form-group" v-if="showLineLink">
-    <label class="form-label">LINE <a href="https://line.me/R/nv/chat">https://line.me/R/nv/chat</a></label>
+    <label class="form-label">LINE</label>
+    <div>
+      <a href="https://line.me/R/nv/chat">https://line.me/R/nv/chat</a>
+    </div>
   </div>
   <div class="form-group">
     <label class="form-label">グループ</label>

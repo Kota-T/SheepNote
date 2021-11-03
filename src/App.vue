@@ -29,11 +29,12 @@ async function reset(): Promise<void> {
 @import 'bootstrap/dist/css/bootstrap.css';
 :root{
   --main-color: #8a5444;
+  --bg-color: #fff9f3;
 }
 body{
   font-family: "Roboto", "Noto Sans JP";
   color: var(--main-color) !important;
-  background-color: #fff9f3;
+  background-color: var(--bg-color);
 }
 .nav{
   flex-wrap: nowrap;
@@ -60,14 +61,14 @@ body{
   border: 1px solid var(--main-color);
 }
 .btn:hover{
-  color: #ffffff;
+  color: var(--bg-color);
   background-color: var(--main-color);
 }
 .btn svg{
   fill: var(--main-color);
 }
 .btn svg:hover{
-  fill: #fff9f3;
+  fill: var(--bg-color);
 }
 .form-group{
   margin-bottom: 0.5rem;

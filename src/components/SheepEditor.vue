@@ -30,7 +30,11 @@ onMounted(async ()=>{
   const sheep_id = Number(props.sheep_id)
   Object.assign(data, await db.sheep.get(sheep_id))
   groupArray.value = await db.groups.toArray()
-  talkArray.value = await db.talks.where('sheep_id').equals(sheep_id).reverse().sortBy('date')
+  talkArray.value = await db.talks
+    .where('sheep_id')
+    .equals(sheep_id)
+    .reverse()
+    .sortBy('date')
 })
 
 function saveSheep(){

@@ -33,7 +33,7 @@ function unwrapReactive(talk: Talk): Talk {
               type="number"
               class="form-control"
               :value="data.date.getFullYear()"
-              @input="data.date.setFullYear(Number(($event.target as HTMLInputElement).value));update();"
+              @change="data.date.setFullYear(Number(($event.target as HTMLInputElement).value));update();"
               >
               <span class="input-group-text">年</span>
             </div>
@@ -42,7 +42,7 @@ function unwrapReactive(talk: Talk): Talk {
               type="number"
               class="form-control"
               :value="data.date.getMonth() + 1"
-              @input="data.date.setMonth(Number(($event.target as HTMLInputElement).value) - 1);update();"
+              @change="data.date.setMonth(Number(($event.target as HTMLInputElement).value) - 1);update();"
               >
               <span class="input-group-text">月</span>
             </div>
@@ -55,7 +55,7 @@ function unwrapReactive(talk: Talk): Talk {
               type="number"
               class="form-control"
               :value="data.date.getDate()"
-              @input="data.date.setDate(Number(($event.target as HTMLInputElement).value));update();"
+              @change="data.date.setDate(Number(($event.target as HTMLInputElement).value));update();"
               >
               <span class="input-group-text">日</span>
             </div>
@@ -83,7 +83,7 @@ function unwrapReactive(talk: Talk): Talk {
           type="number"
           class="form-control"
           :value="data.date.getHours()"
-          @input="data.date.setHours(Number(($event.target as HTMLInputElement).value));update();"
+          @change="data.date.setHours(Number(($event.target as HTMLInputElement).value));update();"
           >
           <span class="input-group-text">時</span>
         </div>
@@ -92,7 +92,7 @@ function unwrapReactive(talk: Talk): Talk {
           type="number"
           class="form-control"
           :value="data.date.getMinutes()"
-          @input="data.date.setMinutes(Number(($event.target as HTMLInputElement).value));update();"
+          @change="data.date.setMinutes(Number(($event.target as HTMLInputElement).value));update();"
           >
           <span class="input-group-text">分</span>
         </div>

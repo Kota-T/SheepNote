@@ -12,7 +12,7 @@ export default defineConfig({
         "name": "ひつじノート",
         "short_name": "ひつじノート",
         "description": "訪問した人の情報と訪問内容を楽しく管理できるアプリです。",
-        "theme_color": "##fff9f3",
+        "theme_color": "#fff9f3",
         "background_color": "#fff9f3",
         "display": "standalone",
         "icons": [

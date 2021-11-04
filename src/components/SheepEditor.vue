@@ -158,10 +158,17 @@ function removeTalk(talk: Talk): void {
   </div>
   <div class="form-group">
     <label class="form-label">グループ</label>
-    <select class="form-select" v-model.number="data.group_id">
-      <option>未選択</option>
-      <option v-for="group in groupArray" :value="group.id">{{ group.name }}</option>
-    </select>
+    <div class="input-group">
+      <select class="form-select" v-model.number="data.group_id">
+        <option>未選択</option>
+        <option v-for="group in groupArray" :value="group.id">{{ group.name }}</option>
+      </select>
+      <router-link
+      class="btn"
+      v-if="data.group_id"
+      :to="{ name: 'group', params: { group_id: data.group_id } }"
+      >移動</router-link>
+    </div>
   </div>
   <div class="form-group">
     <label class="form-label">どんな人?</label>

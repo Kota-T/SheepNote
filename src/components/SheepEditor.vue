@@ -160,7 +160,7 @@ function removeTalk(talk: Talk): void {
     <label class="form-label">グループ</label>
     <div class="input-group">
       <select class="form-select" v-model.number="data.group_id">
-        <option>未選択</option>
+        <option :value="undefined">未選択</option>
         <option v-for="group in groupArray" :value="group.id">{{ group.name }}</option>
       </select>
       <router-link

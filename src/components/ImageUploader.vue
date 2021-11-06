@@ -41,7 +41,7 @@ function reset(){
 <template>
   <div class="d-flex">
     <div class="form-group">
-      <label class="form-label">ファイルを選択</label>
+      <label class="form-label">写真</label>
       <div class="input-group">
         <input type="file" accept="image/*" class="form-control" @change="startEdit(($event.target as HTMLInputElement).files![0] as File)" ref="fileInput">
         <button type="button" class="btn" v-if="modelValue" @click="reset">消去</button>

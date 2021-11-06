@@ -46,7 +46,7 @@ function getDay(date: Date): string {
         {{ next_talk.date.getFullYear() }}年
         {{ next_talk.date.getMonth() + 1 }}月
         {{ next_talk.date.getDate() }}日
-        ({{ getDay(last_talk.date) }})
+        ({{ getDay(next_talk.date) }})
         {{ next_talk.date.getHours() }}時
         {{ next_talk.date.getMinutes() }}分
         </span>

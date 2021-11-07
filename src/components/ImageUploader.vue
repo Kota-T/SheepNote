@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import InputElement from './InputElement.vue'
 import ImageEditor from './ImageEditor.vue'
-import { nextTick, ref, watchEffect } from 'vue'
+import { nextTick, onMounted, ref, watchEffect } from 'vue'
 import { Sheep } from '../models'
 
 const props = defineProps<{ modelValue?: string }>()
@@ -22,14 +22,13 @@ function startEdit(file: File){
 }
 
 function endEdit(url: string){
-  emits('update:modelValue', url)
   isShowEditor.value = false
+  emits('update:modelValue', url)
 }
 
 function hide(){
-  if(!fileInput.value) return
   isShowEditor.value = false
-  fileInput.value.value = ""
+  fileInput.value!.value = ""
 }
 
 function save(){
@@ -37,8 +36,7 @@ function save(){
 }
 
 function reset(){
-  if(!fileInput.value) return
-  fileInput.value.value = ""
+  fileInput.value!.value = ""
   emits('update:modelValue', undefined)
 }
 </script>
@@ -48,13 +46,19 @@ function reset(){
     <div class="form-group">
       <label class="form-label">写真</label>
       <div class="input-group">
-        <input type="file" accept="image/*" class="form-control" @change="startEdit(($event.target as HTMLInputElement).files![0] as File)" ref="fileInput">
+        <input
+        type="file"
+        accept="image/*"
+        class="form-control"
+        @change="startEdit(($event.target as HTMLInputElement).files![0] as File)"
+        ref="fileInput"
+        >
         <button type="button" class="btn" @click="save">保存</button>
         <button type="button" class="btn" v-if="modelValue" @click="reset">消去</button>
       </div>
     </div>
-    <img v-if="modelValue" :src="modelValue" class="ms-2 ms-sm-auto border border-1 rounded-circle bg-white" width="70" height="70">
-    <img v-else src="../assets/human.png" class="ms-2 ms-sm-auto border border-1 rounded-circle bg-white" width="70" height="70">
+    <img v-if="modelValue" :src="modelValue" class="ms-2 ms-sm-auto mb-3 border border-1 rounded-circle bg-white" width="70" height="70">
+    <img v-else src="../assets/human.png" class="ms-2 ms-sm-auto mb-3 border border-1 rounded-circle bg-white" width="70" height="70">
   </div>
   <Popup v-if="isShowEditor" @hide-popup="hide">
     <ImageEditor :img_url="img_url" @end-edit="endEdit" />

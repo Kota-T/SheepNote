@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import InputElement from './InputElement.vue'
+import ImageEditor from './ImageEditor.vue'
 import { nextTick, ref, watchEffect } from 'vue'
 import { Sheep } from '../models'
-import ImageEditor from './ImageEditor.vue'
 
 const props = defineProps<{ modelValue?: string }>()
-const emits = defineEmits<{ (e: 'update:modelValue', modelValue?: string): void }>()
+const emits = defineEmits<{ (e: 'update:modelValue', modelValue?: string): void; (e: 'save'): void; }>()
 
 const isShowEditor = ref(false)
 const fileInput    = ref<HTMLInputElement>()
@@ -31,6 +32,10 @@ function hide(){
   fileInput.value.value = ""
 }
 
+function save(){
+  emits('save')
+}
+
 function reset(){
   if(!fileInput.value) return
   fileInput.value.value = ""
@@ -45,6 +50,7 @@ function reset(){
       <div class="input-group">
         <input type="file" accept="image/*" class="form-control" @change="startEdit(($event.target as HTMLInputElement).files![0] as File)" ref="fileInput">
         <button type="button" class="btn" v-if="modelValue" @click="reset">消去</button>
+        <button type="button" class="btn" @click="save">保存</button>
       </div>
     </div>
     <img v-if="modelValue" :src="modelValue" class="ms-2 ms-sm-auto border border-1 rounded-circle bg-white" width="70" height="70">

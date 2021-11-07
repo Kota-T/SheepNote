@@ -21,11 +21,25 @@ function save(){
         <button type="button" class="btn" @click="save">保存</button>
         <button type="button" class="btn" @click="isEditing=false">終了</button>
       </div>
-      <button type="button" class="btn" v-else @click="isEditing=true">
-        <svg><use href="../../assets/pencil.svg#pencil"/></svg>
-      </button>
+      <svg class="pencil" v-else @click="isEditing=true">
+        <use href="../assets/pencil.svg#pencil"/>
+      </svg>
     </div>
     <slot name="input" v-if="isEditing"></slot>
     <slot name="value" v-else></slot>
   </div>
 </template>
+
+<style>
+.pencil{
+  box-sizing: content-box;
+  width: 32px;
+  height: 26px;
+  fill: var(--main-color);
+  padding: 7px 13px;
+}
+.pencil:hover{
+  cursor: pointer;
+  opacity: 0.8;
+}
+</style>

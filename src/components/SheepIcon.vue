@@ -52,10 +52,7 @@ function getDay(date: Date): string {
         </span>
       </p>
       <div class="text-end">
-        <div class="btn-group">
-          <router-link :to="{ name: 'sheep', params: { sheep_id: sheep.id } }" class="btn">編集</router-link>
-          <button type="button" class="btn" @click="$emit('remove-sheep', props.sheep)">削除</button>
-        </div>
+        <router-link :to="{ name: 'sheep', params: { sheep_id: sheep.id } }" class="btn">詳細</router-link>
       </div>
       <div class="position-absolute" style="top:10px;right:10px;" v-if="sheep.img_url">
         <img class="rounded-circle" :src="sheep.img_url" width="70" height="70">

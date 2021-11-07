@@ -32,18 +32,18 @@ function registerSheep(): void {
   </div>
   <div class="form-group">
     <label class="form-label">年齢</label>
-    <select class="form-select" v-model.number="data.age">
-      <option value="0">0~9</option>
-      <option value="10">10~19</option>
-      <option value="20">20~29</option>
-      <option value="30">30~39</option>
-      <option value="40">40~49</option>
-      <option value="50">50~59</option>
-      <option value="60">60~69</option>
-      <option value="70">70~79</option>
-      <option value="80">80~89</option>
-      <option value="90">90~99</option>
-      <option value="100">100~</option>
+    <select class="form-select" v-model="data.age">
+      <option>0~9</option>
+      <option>10~19</option>
+      <option>20~29</option>
+      <option>30~39</option>
+      <option>40~49</option>
+      <option>50~59</option>
+      <option>60~69</option>
+      <option>70~79</option>
+      <option>80~89</option>
+      <option>90~99</option>
+      <option>100~</option>
     </select>
   </div>
   <div class="form-group">
@@ -66,7 +66,7 @@ function registerSheep(): void {
     </select>
   </div>
   <div class="form-group">
-    <label class="form-label">どんな人?</label>
+    <label class="form-label">どんな人？</label>
     <textarea class="form-control" v-model="data.note" v-textarea-resize></textarea>
   </div>
   <router-link to="/" class="btn w-100 mb-2" @click="registerSheep">登録</router-link>

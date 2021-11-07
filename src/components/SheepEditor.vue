@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import InputElement from './util/InputElement.vue'
 import ImageUploader from './ImageUploader.vue'
 import TalkEditor from './TalkEditor.vue'
 import { computed, ref, reactive, onMounted } from 'vue'
 import { Sheep, Group, Talk } from '../models'
 import db from '../db'
-import { isMobile } from '../util'
 
 const props = defineProps<{ sheep_id: string }>()
 
@@ -18,15 +18,12 @@ const emailValidator = computed(()=>{
     return `mailto:${ data.email }`
 })
 
-const showLineLink = ref(false)
-
 const groupArray = ref<Group[]>([])
 const talkArray = ref<Talk[]>([])
 
 let tmp_talk_id = 0
 
 onMounted(async ()=>{
-  showLineLink.value = isMobile()
   const sheep_id = Number(props.sheep_id)
   Object.assign(data, await db.sheep.get(sheep_id))
   groupArray.value = await db.groups.toArray()
@@ -148,12 +145,6 @@ function removeTalk(talk: Talk): void {
     <div class="input-group">
       <input type="email" class="form-control" v-model="data.email">
       <a class="btn" :href="emailValidator">作成</a>
-    </div>
-  </div>
-  <div class="form-group" v-if="showLineLink">
-    <label class="form-label">LINE</label>
-    <div>
-      <a href="https://line.me/R/nv/chat">https://line.me/R/nv/chat</a>
     </div>
   </div>
   <div class="form-group">

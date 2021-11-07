@@ -65,13 +65,15 @@ body{
   background-color: var(--main-color);
 }
 .btn svg{
+  width: 32px;
+  height: 26px;
   fill: var(--main-color);
 }
 .btn svg:hover{
   fill: var(--bg-color);
 }
 .form-group{
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 .form-label{
   font-weight: bold;

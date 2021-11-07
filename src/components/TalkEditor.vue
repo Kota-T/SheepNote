@@ -16,7 +16,7 @@ function unwrapReactive(talk: Talk): Talk {
 </script>
 
 <template>
-  <div class="talk-editor border-top pt-2 mb-2" style="border-top-color: rgba(138, 84, 68, 0.5) !important;">
+  <div class="border-top pt-2" style="border-top-color: rgba(138, 84, 68, 0.5) !important;">
     <div class="form-group">
       <div class="form-label d-flex">
         <label class="me-auto" style="line-height:40px;">日付</label>

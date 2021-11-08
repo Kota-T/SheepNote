@@ -97,10 +97,11 @@ function removeSheep(sheep: Sheep): void {
     @input="search(($event.target as HTMLInputElement).value)"
     >
   </div>
-  <SheepIcon
-  v-for="sheep in sheepArray"
-  :key="sheep.id"
-  :sheep="sheep"
-  @remove-sheep="removeSheep"
-  />
+  <div class="row row-cols-sm-2 row-cols-lg-3 g-0">
+    <SheepIcon
+    v-for="sheep in sheepArray"
+    :key="sheep.id"
+    :sheep="sheep"
+    />
+  </div>
 </template>

@@ -30,10 +30,11 @@ function removeSheep(sheep: Sheep): void {
 
 <template>
   <h4 class="fw-bold">{{ group_name }}</h4>
-  <SheepIcon
-  v-for="sheep in sheepArray"
-  :key="sheep.id"
-  :sheep="sheep"
-  @remove-sheep="removeSheep"
-  />
+  <div class="row row-cols-sm-2 row-cols-lg-3 g-0">
+    <SheepIcon
+    v-for="sheep in sheepArray"
+    :key="sheep.id"
+    :sheep="sheep"
+    />
+  </div>
 </template>

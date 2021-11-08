@@ -3,7 +3,6 @@ import { ref, reactive, onMounted } from 'vue'
 import { Sheep, Talk } from '../models'
 import db from '../db'
 
-defineEmits<{ (e: 'remove-sheep', sheep: Sheep): void }>()
 const props = defineProps<{ sheep: Sheep }>()
 
 const last_talk = reactive<Talk>({} as Talk)
@@ -22,7 +21,7 @@ function getDay(date: Date): string {
 </script>
 
 <template>
-  <div class="card">
+  <div class="card col-sm">
     <div class="card-body position-relative">
       <h5 class="card-title fw-bold">{{ sheep.name }}</h5>
       <p class="card-text">最後に訪問した時間<br>

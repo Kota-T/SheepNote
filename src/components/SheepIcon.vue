@@ -53,7 +53,7 @@ function getDay(date: Date): string {
       <div class="text-end">
         <router-link :to="{ name: 'sheep', params: { sheep_id: sheep.id } }" class="btn">詳細</router-link>
       </div>
-      <div class="position-absolute" style="top:10px;right:10px;" v-if="sheep.img_url">
+      <div class="position-absolute" style="top:6px;right:6px;" v-if="sheep.img_url">
         <img class="rounded-circle" :src="sheep.img_url" width="70" height="70">
       </div>
     </div>

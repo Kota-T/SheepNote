@@ -43,22 +43,24 @@ function reset(){
 
 <template>
   <div class="d-flex">
-    <div class="form-group">
-      <label class="form-label">写真</label>
-      <div class="input-group">
-        <input
-        type="file"
-        accept="image/*"
-        class="form-control"
-        @change="startEdit(($event.target as HTMLInputElement).files![0] as File)"
-        ref="fileInput"
-        >
-        <button type="button" class="btn" @click="save">保存</button>
-        <button type="button" class="btn" v-if="modelValue" @click="reset">消去</button>
-      </div>
-    </div>
-    <img v-if="modelValue" :src="modelValue" class="ms-2 ms-sm-auto mb-3 border border-1 rounded-circle bg-white" width="70" height="70">
-    <img v-else src="../assets/human.png" class="ms-2 ms-sm-auto mb-3 border border-1 rounded-circle bg-white" width="70" height="70">
+    <InputElement @save="save">
+      <template #title>写真</template>
+      <template #input>
+        <div class="input-group">
+          <input
+          type="file"
+          accept="image/*"
+          class="form-control"
+          @change="startEdit(($event.target as HTMLInputElement).files![0] as File)"
+          ref="fileInput"
+          >
+          <button type="button" class="btn" v-if="modelValue" @click="reset">消去</button>
+        </div>
+      </template>
+      <template #value></template>
+    </InputElement>
+    <img v-if="modelValue" :src="modelValue" class="ms-auto mb-3 border border-1 rounded-circle bg-white" width="86" height="86">
+    <img v-else src="../assets/human.png" class="ms-auto mb-3 border border-1 rounded-circle bg-white" width="86" height="86">
   </div>
   <Popup v-if="isShowEditor" @hide-popup="hide">
     <ImageEditor :img_url="img_url" @end-edit="endEdit" />

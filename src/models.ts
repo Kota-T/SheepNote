@@ -3,8 +3,8 @@ type Age = "0~9" | "10~19" | "20~29" | "30~39" | "40~49" | "50~59" | "60~69" | "
 
 export interface Sheep {
   id?: number
-  name: string
   img_url?: string
+  name?: string
   gender?: Gender
   age?: Age
   address?: string

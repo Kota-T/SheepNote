@@ -111,6 +111,7 @@ function removeTalk(talk: Talk): void {
 </script>
 
 <template>
+  <ImageUploader v-model="data.img_url" @save="saveSheepData('img_url', data.img_url)" />
   <InputElement @save="saveSheepData('name', data.name)">
     <template #title>名前</template>
     <template #input>
@@ -120,7 +121,6 @@ function removeTalk(talk: Talk): void {
       <p class="form-control">{{ data.name || '未登録' }}</p>
     </template>
   </InputElement>
-  <ImageUploader v-model="data.img_url" @save="saveSheepData('img_url', data.img_url)" />
   <InputElement @save="saveSheepData('gender', data.gender)">
     <template #title>性別</template>
     <template #input>

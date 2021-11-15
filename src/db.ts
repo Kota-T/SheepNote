@@ -13,8 +13,8 @@ const db = new class SheepNoteDB extends Dexie {
     this.version(SCHEMA_VERSION).stores({
       sheep: `
         ++id,
-        name,
         img_url,
+        name,
         gender,
         age,
         address,

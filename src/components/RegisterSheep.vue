@@ -12,8 +12,31 @@ onMounted(async ()=>{
 })
 
 function registerSheep(): void {
-  if(data.name)
-    db.sheep.add(data)
+  db.sheep.add(data)
+}
+
+async function detectAddress(): Promise<void> {
+  const API_KEY = await fetch('/api-key').then(res=>res.text())
+
+  const address = await new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      pos => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+      err => reject(err)
+    )
+  })
+  .then(obj => {
+    const { lat, lng } = obj as { lat: number, lng: number }
+    return fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${API_KEY}`)
+    .then(res=>res.json())
+    .then(data=>{
+      const address = data.results[0].formatted_address
+      return address.substring(address.indexOf(' ') + 1)
+    })
+  })
+  .catch(console.error)
+
+  if(address)
+    data.address = address
 }
 </script>
 
@@ -22,7 +45,6 @@ function registerSheep(): void {
     <label class="form-label">名前</label>
     <input type="text" class="form-control" v-model="data.name">
   </div>
-  <ImageUploader v-model="data.img_url" />
   <div class="form-group">
     <label class="form-label">性別</label>
     <select class="form-select" v-model="data.gender">
@@ -47,7 +69,10 @@ function registerSheep(): void {
     </select>
   </div>
   <div class="form-group">
-    <label class="form-label">住所</label>
+    <div class="form-label d-flex">
+      <label class="me-auto" style="line-height:40px;">住所</label>
+      <button type="button" class="btn" @click="detectAddress">現在地を取得</button>
+    </div>
     <textarea class="form-control" v-model="data.address" v-textarea-resize></textarea>
   </div>
   <div class="form-group">

@@ -65,6 +65,10 @@ function addTalk(): void {
       talk.id = id
       talkArray.value.unshift(talk)
       talkArray.value.sort((a, b) => b.date.getTime() - a.date.getTime())
+      const last_talk = talkArray.value[0]
+
+      sheep.last_talk_id = last_talk.id
+      db.sheep.update(sheep.id!, { last_talk_id: last_talk.id })
     })
 }
 function saveTalk(talk: Talk): void {

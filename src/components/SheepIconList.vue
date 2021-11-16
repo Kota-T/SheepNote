@@ -94,7 +94,7 @@ function removeSheep(sheep: Sheep): void {
     type="search"
     class="form-control"
     placeholder="検索"
-    @input="search(($event.target as HTMLInputElement).value)"
+    @change="search(($event.target as HTMLInputElement).value)"
     >
   </div>
   <div class="row row-cols-sm-2 row-cols-lg-3 g-0">

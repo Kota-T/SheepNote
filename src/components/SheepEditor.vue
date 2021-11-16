@@ -12,14 +12,14 @@ const props = defineProps<{ sheep_id: string }>()
 const tabs = ref(['情報', '訪問履歴'])
 const currentTab = ref(tabs.value[0])
 
-const data = reactive<Sheep>({} as Sheep)
+const sheep = reactive<Sheep>({} as Sheep)
 const phone_numberValidator = computed(()=>{
-  if(data.phone_number)
-    return `tel:${ data.phone_number }`
+  if(sheep.phone_number)
+    return `tel:${ sheep.phone_number }`
 })
 const emailValidator = computed(()=>{
-  if(data.email)
-    return `mailto:${ data.email }`
+  if(sheep.email)
+    return `mailto:${ sheep.email }`
 })
 
 const groupArray = ref<Group[]>([])
@@ -27,7 +27,7 @@ const talkArray = ref<Talk[]>([])
 
 onMounted(async ()=>{
   const sheep_id = Number(props.sheep_id)
-  Object.assign(data, await db.sheep.get(sheep_id))
+  Object.assign(sheep, await db.sheep.get(sheep_id))
   groupArray.value = await db.groups.toArray()
   talkArray.value = await db.talks
     .where('sheep_id')
@@ -37,78 +37,57 @@ onMounted(async ()=>{
 })
 
 function saveSheepData(propName: string, prop: any): void {
-  db.sheep.update(data.id!, { [propName]: prop })
+  db.sheep.update(sheep.id!, { [propName]: prop })
 }
 
 const router = useRouter()
 
 function removeSheep(){
-  if(!confirm(`${data.name} さんの情報を削除しますか？`)) return
+  if(!confirm(`${sheep.name} さんの情報を削除しますか？`)) return
   router.back()
   db.talks
     .where('sheep_id')
-    .equals(data.id!)
+    .equals(sheep.id!)
     .primaryKeys()
     .then(array=>array.forEach(id=>db.talks.delete(id)))
-  db.sheep.delete(data.id!)
+  db.sheep.delete(sheep.id!)
 }
-
-let tmp_talk_id = 0
 
 function addTalk(): void {
-  if(!data.id) return
-  talkArray.value.unshift({
-    id       : "_" + tmp_talk_id++ as unknown as number,
-    sheep_id : data.id,
+  const talk: Talk = {
+    sheep_id : sheep.id!,
     date     : new Date(),
     details  : ""
-  })
-}
-async function saveTalk(talk: Talk): Promise<void> {
-  if(!data.id) return
-  if(typeof talk.id === 'string')
-    talk.id = undefined
-  if(!talk.sheep_id)
-    talk.sheep_id = data.id
-  await db.talks.put(talk).then(id => talk.id = id)
-
-  talkArray.value.sort((a, b) => b.date.getTime() - a.date.getTime())
-
-  if(data.last_talk_id){//２回目以降
-    if(data.last_talk_id === talk.id){//最新のtalkを変更した時
-      const real_last_talk = talkArray.value[0]//talkArrayのなかで一番最近のもの
-      if(data.last_talk_id !== real_last_talk.id){//最新だったtalkが変更され最新ではなくなったとき
-        data.last_talk_id = real_last_talk.id
-        db.sheep.update(data.id, { last_talk_id: real_last_talk.id })
-        return
-      }
-    }
-    //最新ではないtalkを変更してそのtalkが最新にはならなかった場合
-    const last_talk = await db.talks.get(data.last_talk_id)
-    if(last_talk && last_talk.date > talk.date)
-      return
   }
+  db.talks
+    .put(talk)
+    .then(id => {
+      talk.id = id
+      talkArray.value.unshift(talk)
+      talkArray.value.sort((a, b) => b.date.getTime() - a.date.getTime())
+    })
+}
+function saveTalk(talk: Talk): void {
+  db.talks.update(talk.id!, talk)
+  talkArray.value.sort((a, b) => b.date.getTime() - a.date.getTime())
+  const last_talk = talkArray.value[0]
 
-  data.last_talk_id = talk.id
-  db.sheep.update(data.id, { last_talk_id: talk.id })
+  sheep.last_talk_id = last_talk.id
+  db.sheep.update(sheep.id!, { last_talk_id: last_talk.id })
 }
 function removeTalk(talk: Talk): void {
-  if(!data.id || !confirm("訪問履歴を削除しますか？")) return
+  if(!confirm("訪問履歴を削除しますか？")) return
   talkArray.value.splice(talkArray.value.indexOf(talk), 1)
-  if(talk.id){
-    db.talks.delete(talk.id)
-    if(data.last_talk_id === talk.id){
-      if(talkArray.value.length === 0){
-        data.last_talk_id = undefined
-        db.sheep.update(data.id, { last_talk_id: undefined })
-        return
-      }
-      const last_talk = talkArray.value.reduce((a, b)=>{
-        return a.date > b.date ? a : b
-      })
-      data.last_talk_id = last_talk.id
-      db.sheep.update(data.id, { last_talk_id: last_talk.id })
+  db.talks.delete(talk.id!)
+  if(sheep.last_talk_id === talk.id){
+    if(talkArray.value.length === 0){
+      sheep.last_talk_id = undefined
+      db.sheep.update(sheep.id!, { last_talk_id: undefined })
+      return
     }
+    const last_talk = talkArray.value[0]
+    sheep.last_talk_id = last_talk.id
+    db.sheep.update(sheep.id!, { last_talk_id: last_talk.id })
   }
 }
 </script>
@@ -116,32 +95,32 @@ function removeTalk(talk: Talk): void {
 <template>
   <Tab :titles="tabs" @change="(title: string) => currentTab = title"/>
   <template v-if="currentTab === '情報'">
-    <ImageUploader v-model="data.img_url" @save="saveSheepData('img_url', data.img_url)" />
-    <InputElement @save="saveSheepData('name', data.name)">
+    <ImageUploader v-model="sheep.img_url" @save="saveSheepData('img_url', sheep.img_url)" />
+    <InputElement @save="saveSheepData('name', sheep.name)">
       <template #title>名前</template>
       <template #input>
-        <input type="text" class="form-control" v-model="data.name">
+        <input type="text" class="form-control" v-model="sheep.name">
       </template>
       <template #value>
-        <p class="form-control">{{ data.name || '未登録' }}</p>
+        <p class="form-control">{{ sheep.name || '未登録' }}</p>
       </template>
     </InputElement>
-    <InputElement @save="saveSheepData('gender', data.gender)">
+    <InputElement @save="saveSheepData('gender', sheep.gender)">
       <template #title>性別</template>
       <template #input>
-        <select class="form-select" v-model="data.gender">
+        <select class="form-select" v-model="sheep.gender">
           <option>男性</option>
           <option>女性</option>
         </select>
       </template>
       <template #value>
-        <p class="form-control">{{ data.gender || '未登録' }}</p>
+        <p class="form-control">{{ sheep.gender || '未登録' }}</p>
       </template>
     </InputElement>
-    <InputElement @save="saveSheepData('age', data.age)">
+    <InputElement @save="saveSheepData('age', sheep.age)">
       <template #title>年齢</template>
       <template #input>
-        <select class="form-select" v-model="data.age">
+        <select class="form-select" v-model="sheep.age">
           <option>0~9</option>
           <option>10~19</option>
           <option>20~29</option>
@@ -156,71 +135,71 @@ function removeTalk(talk: Talk): void {
         </select>
       </template>
       <template #value>
-        <p class="form-control">{{ data.age || '未登録' }}</p>
+        <p class="form-control">{{ sheep.age || '未登録' }}</p>
       </template>
     </InputElement>
-    <InputElement @save="saveSheepData('address', data.address)">
+    <InputElement @save="saveSheepData('address', sheep.address)">
       <template #title>住所</template>
       <template #input>
-        <textarea class="form-control" v-model="data.address" v-textarea-resize></textarea>
+        <textarea class="form-control" v-model="sheep.address" v-textarea-resize></textarea>
       </template>
       <template #value>
-        <pre class="form-control">{{ data.address || '未登録' }}</pre>
+        <pre class="form-control">{{ sheep.address || '未登録' }}</pre>
       </template>
     </InputElement>
-    <InputElement @save="saveSheepData('phone_number', data.phone_number)">
+    <InputElement @save="saveSheepData('phone_number', sheep.phone_number)">
       <template #title>電話番号</template>
       <template #input>
-        <input type="tel" class="form-control" v-model="data.phone_number">
+        <input type="tel" class="form-control" v-model="sheep.phone_number">
       </template>
       <template #value>
         <p class="input-group">
-          <div class="form-control">{{ data.phone_number || '未登録' }}</div>
+          <div class="form-control">{{ sheep.phone_number || '未登録' }}</div>
           <a class="btn" :href="phone_numberValidator">発信</a>
         </p>
       </template>
     </InputElement>
-    <InputElement @save="saveSheepData('email', data.email)">
+    <InputElement @save="saveSheepData('email', sheep.email)">
       <template #title>メール</template>
       <template #input>
-        <input type="email" class="form-control" v-model="data.email">
+        <input type="email" class="form-control" v-model="sheep.email">
       </template>
       <template #value>
         <p class="input-group">
-          <div class="form-control">{{ data.email || '未登録' }}</div>
+          <div class="form-control">{{ sheep.email || '未登録' }}</div>
           <a class="btn" :href="emailValidator">作成</a>
         </p>
       </template>
     </InputElement>
-    <InputElement @save="saveSheepData('group_id', data.group_id)">
+    <InputElement @save="saveSheepData('group_id', sheep.group_id)">
       <template #title>グループ</template>
       <template #input>
-        <select class="form-select" v-model.number="data.group_id">
+        <select class="form-select" v-model.number="sheep.group_id">
           <option :value="undefined">未登録</option>
           <option v-for="group in groupArray" :value="group.id">{{ group.name }}</option>
         </select>
       </template>
       <template #value>
         <div class="input-group">
-          <select class="form-select bg-white" style="background-image: none;" disabled v-model.number="data.group_id">
+          <select class="form-select bg-white" style="background-image: none;" disabled v-model.number="sheep.group_id">
             <option :value="undefined">未登録</option>
             <option v-for="group in groupArray" :value="group.id">{{ group.name }}</option>
           </select>
           <router-link
           class="btn"
-          v-if="data.group_id"
-          :to="{ name: 'group', params: { group_id: data.group_id } }"
+          v-if="sheep.group_id"
+          :to="{ name: 'group', params: { group_id: sheep.group_id } }"
           >移動</router-link>
         </div>
       </template>
     </InputElement>
-    <InputElement @save="saveSheepData('note', data.note)">
+    <InputElement @save="saveSheepData('note', sheep.note)">
       <template #title>どんな人？</template>
       <template #input>
-        <textarea class="form-control" v-model="data.note" v-textarea-resize></textarea>
+        <textarea class="form-control" v-model="sheep.note" v-textarea-resize></textarea>
       </template>
       <template #value>
-        <pre class="form-control">{{ data.note || '未登録' }}</pre>
+        <pre class="form-control">{{ sheep.note || '未登録' }}</pre>
       </template>
     </InputElement>
     <button class="btn w-100 mb-2" @click="removeSheep">削除</button>

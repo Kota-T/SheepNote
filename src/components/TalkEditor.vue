@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import { reactive, toRaw } from 'vue'
+import { computed, reactive, ref, toRaw } from 'vue'
 import { Talk } from '../models'
+import { date2string } from '../util'
 
 defineEmits<{ (e: 'talk-save', talk: Talk): void, (e: 'talk-remove', talk: Talk): void }>()
 const props = defineProps<{ talk: Talk }>()
 const data = reactive<Talk>(props.talk)
+
+const isEditing = ref(false)
+
+const date_string = computed(() => date2string(data.date))
 
 function update(): void {
   data.date = new Date(data.date.getTime())
@@ -20,12 +25,14 @@ function unwrapReactive(talk: Talk): Talk {
     <div class="form-group">
       <div class="form-label d-flex">
         <label class="me-auto" style="line-height:40px;">日付と時間</label>
-        <div class="btn-group">
+        <button v-if="!isEditing" type="button" class="btn" @click="isEditing=true">編集</button>
+        <div v-else class="btn-group">
           <button type="button" class="btn" @click="$emit('talk-save', unwrapReactive(data))">保存</button>
-          <button type="button" class="btn" @click="$emit('talk-remove', unwrapReactive(data))">削除</button>
+          <button type="button" class="btn" @click="isEditing=false">終了</button>
         </div>
       </div>
-      <div class="row gy-2">
+      <p v-if="!isEditing" class="form-control">{{ date_string }}</p>
+      <div v-else class="row gy-2">
         <div class="col-sm-6 col-md-4">
           <div class="row">
             <div class="input-group col">
@@ -99,7 +106,9 @@ function unwrapReactive(talk: Talk): Talk {
     </div>
     <div class="form-group">
       <label class="form-label">話した内容</label>
-      <textarea class="form-control" v-model="data.details" v-textarea-resize></textarea>
+      <textarea v-if="isEditing" class="form-control" v-model="data.details" v-textarea-resize></textarea>
+      <pre v-else class="form-control">{{ data.details || "未登録" }}</pre>
     </div>
+    <button type="button" class="btn w-100 mb-3" @click="$emit('talk-remove', unwrapReactive(data))">削除</button>
   </div>
 </template>

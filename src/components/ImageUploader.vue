@@ -46,7 +46,7 @@ function reset(){
 
 <template>
   <label class="d-flex">
-    <img :src="img_src" class="mx-auto mt-4 mb-3 border border-1 rounded-circle bg-white" width="120" height="120">
+    <img :src="img_src" class="mx-auto my-3 border border-1 rounded-circle bg-white" width="120" height="120">
     <input
     type="file"
     accept="image/*"

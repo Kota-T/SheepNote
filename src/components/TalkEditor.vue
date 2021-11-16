@@ -19,14 +19,14 @@ function unwrapReactive(talk: Talk): Talk {
   <div class="border-top pt-2" style="border-top-color: rgba(138, 84, 68, 0.5) !important;">
     <div class="form-group">
       <div class="form-label d-flex">
-        <label class="me-auto" style="line-height:40px;">日付</label>
+        <label class="me-auto" style="line-height:40px;">日付と時間</label>
         <div class="btn-group">
           <button type="button" class="btn" @click="$emit('talk-save', unwrapReactive(data))">保存</button>
           <button type="button" class="btn" @click="$emit('talk-remove', unwrapReactive(data))">削除</button>
         </div>
       </div>
       <div class="row gy-2">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
           <div class="row">
             <div class="input-group col">
               <input
@@ -48,7 +48,7 @@ function unwrapReactive(talk: Talk): Talk {
             </div>
           </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-4">
           <div class="row">
             <div class="input-group col">
               <input
@@ -73,28 +73,27 @@ function unwrapReactive(talk: Talk): Talk {
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">時間</label>
-      <div class="row">
-        <div class="input-group col">
-          <input
-          type="number"
-          class="form-control"
-          :value="data.date.getHours()"
-          @change="data.date.setHours(Number(($event.target as HTMLInputElement).value));update();"
-          >
-          <span class="input-group-text">時</span>
-        </div>
-        <div class="input-group col">
-          <input
-          type="number"
-          class="form-control"
-          :value="data.date.getMinutes()"
-          @change="data.date.setMinutes(Number(($event.target as HTMLInputElement).value));update();"
-          >
-          <span class="input-group-text">分</span>
+        <div class="col-sm-4">
+          <div class="row">
+            <div class="input-group col">
+              <input
+              type="number"
+              class="form-control"
+              :value="data.date.getHours()"
+              @change="data.date.setHours(Number(($event.target as HTMLInputElement).value));update();"
+              >
+              <span class="input-group-text">時</span>
+            </div>
+            <div class="input-group col">
+              <input
+              type="number"
+              class="form-control"
+              :value="data.date.getMinutes()"
+              @change="data.date.setMinutes(Number(($event.target as HTMLInputElement).value));update();"
+              >
+              <span class="input-group-text">分</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

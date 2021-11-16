@@ -42,26 +42,17 @@ function reset(){
 </script>
 
 <template>
-  <div class="d-flex">
-    <InputElement @save="save">
-      <template #title>写真</template>
-      <template #input>
-        <div class="input-group">
-          <input
-          type="file"
-          accept="image/*"
-          class="form-control"
-          @change="startEdit(($event.target as HTMLInputElement).files![0] as File)"
-          ref="fileInput"
-          >
-          <button type="button" class="btn" v-if="modelValue" @click="reset">消去</button>
-        </div>
-      </template>
-      <template #value></template>
-    </InputElement>
-    <img v-if="modelValue" :src="modelValue" class="ms-auto mb-3 border border-1 rounded-circle bg-white" width="86" height="86">
-    <img v-else src="../assets/human.png" class="ms-auto mb-3 border border-1 rounded-circle bg-white" width="86" height="86">
-  </div>
+  <label class="d-flex">
+    <img v-if="modelValue" :src="modelValue" class="mx-auto my-3 border border-1 rounded-circle bg-white" width="90" height="90">
+    <img v-else src="../assets/human.png" class="mx-auto my-3 border border-1 rounded-circle bg-white" width="90" height="90">
+    <input
+    type="file"
+    accept="image/*"
+    class="d-none"
+    @change="startEdit(($event.target as HTMLInputElement).files![0] as File)"
+    ref="fileInput"
+    >
+  </label>
   <Popup v-if="isShowEditor" @hide-popup="hide">
     <ImageEditor :img_url="img_url" @end-edit="endEdit" />
   </Popup>

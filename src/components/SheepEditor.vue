@@ -9,6 +9,9 @@ import db from '../db'
 
 const props = defineProps<{ sheep_id: string }>()
 
+const tabs = ref(['情報', '訪問履歴'])
+const tabContent = ref(tabs.value[0])
+
 const data = reactive<Sheep>({} as Sheep)
 const phone_numberValidator = computed(()=>{
   if(data.phone_number)
@@ -111,123 +114,125 @@ function removeTalk(talk: Talk): void {
 </script>
 
 <template>
-  <ImageUploader v-model="data.img_url" @save="saveSheepData('img_url', data.img_url)" />
-  <InputElement @save="saveSheepData('name', data.name)">
-    <template #title>名前</template>
-    <template #input>
-      <input type="text" class="form-control" v-model="data.name">
-    </template>
-    <template #value>
-      <p class="form-control">{{ data.name || '未登録' }}</p>
-    </template>
-  </InputElement>
-  <InputElement @save="saveSheepData('gender', data.gender)">
-    <template #title>性別</template>
-    <template #input>
-      <select class="form-select" v-model="data.gender">
-        <option>男性</option>
-        <option>女性</option>
-      </select>
-    </template>
-    <template #value>
-      <p class="form-control">{{ data.gender || '未登録' }}</p>
-    </template>
-  </InputElement>
-  <InputElement @save="saveSheepData('age', data.age)">
-    <template #title>年齢</template>
-    <template #input>
-      <select class="form-select" v-model="data.age">
-        <option>0~9</option>
-        <option>10~19</option>
-        <option>20~29</option>
-        <option>30~39</option>
-        <option>40~49</option>
-        <option>50~59</option>
-        <option>60~69</option>
-        <option>70~79</option>
-        <option>80~89</option>
-        <option>90~99</option>
-        <option>100~</option>
-      </select>
-    </template>
-    <template #value>
-      <p class="form-control">{{ data.age || '未登録' }}</p>
-    </template>
-  </InputElement>
-  <InputElement @save="saveSheepData('address', data.address)">
-    <template #title>住所</template>
-    <template #input>
-      <textarea class="form-control" v-model="data.address" v-textarea-resize></textarea>
-    </template>
-    <template #value>
-      <pre class="form-control">{{ data.address || '未登録' }}</pre>
-    </template>
-  </InputElement>
-  <InputElement @save="saveSheepData('phone_number', data.phone_number)">
-    <template #title>電話番号</template>
-    <template #input>
-      <input type="tel" class="form-control" v-model="data.phone_number">
-    </template>
-    <template #value>
-      <p class="input-group">
-        <div class="form-control">{{ data.phone_number || '未登録' }}</div>
-        <a class="btn" :href="phone_numberValidator">発信</a>
-      </p>
-    </template>
-  </InputElement>
-  <InputElement @save="saveSheepData('email', data.email)">
-    <template #title>メール</template>
-    <template #input>
-      <input type="email" class="form-control" v-model="data.email">
-    </template>
-    <template #value>
-      <p class="input-group">
-        <div class="form-control">{{ data.email || '未登録' }}</div>
-        <a class="btn" :href="emailValidator">作成</a>
-      </p>
-    </template>
-  </InputElement>
-  <InputElement @save="saveSheepData('group_id', data.group_id)">
-    <template #title>グループ</template>
-    <template #input>
-      <select class="form-select" v-model.number="data.group_id">
-        <option :value="undefined">未登録</option>
-        <option v-for="group in groupArray" :value="group.id">{{ group.name }}</option>
-      </select>
-    </template>
-    <template #value>
-      <div class="input-group">
-        <select class="form-select bg-white" style="background-image: none;" disabled v-model.number="data.group_id">
+  <Tab :titles="tabs" @change="(title: string) => tabContent = title"/>
+  <template v-if="tabContent === '情報'">
+    <ImageUploader v-model="data.img_url" @save="saveSheepData('img_url', data.img_url)" />
+    <InputElement @save="saveSheepData('name', data.name)">
+      <template #title>名前</template>
+      <template #input>
+        <input type="text" class="form-control" v-model="data.name">
+      </template>
+      <template #value>
+        <p class="form-control">{{ data.name || '未登録' }}</p>
+      </template>
+    </InputElement>
+    <InputElement @save="saveSheepData('gender', data.gender)">
+      <template #title>性別</template>
+      <template #input>
+        <select class="form-select" v-model="data.gender">
+          <option>男性</option>
+          <option>女性</option>
+        </select>
+      </template>
+      <template #value>
+        <p class="form-control">{{ data.gender || '未登録' }}</p>
+      </template>
+    </InputElement>
+    <InputElement @save="saveSheepData('age', data.age)">
+      <template #title>年齢</template>
+      <template #input>
+        <select class="form-select" v-model="data.age">
+          <option>0~9</option>
+          <option>10~19</option>
+          <option>20~29</option>
+          <option>30~39</option>
+          <option>40~49</option>
+          <option>50~59</option>
+          <option>60~69</option>
+          <option>70~79</option>
+          <option>80~89</option>
+          <option>90~99</option>
+          <option>100~</option>
+        </select>
+      </template>
+      <template #value>
+        <p class="form-control">{{ data.age || '未登録' }}</p>
+      </template>
+    </InputElement>
+    <InputElement @save="saveSheepData('address', data.address)">
+      <template #title>住所</template>
+      <template #input>
+        <textarea class="form-control" v-model="data.address" v-textarea-resize></textarea>
+      </template>
+      <template #value>
+        <pre class="form-control">{{ data.address || '未登録' }}</pre>
+      </template>
+    </InputElement>
+    <InputElement @save="saveSheepData('phone_number', data.phone_number)">
+      <template #title>電話番号</template>
+      <template #input>
+        <input type="tel" class="form-control" v-model="data.phone_number">
+      </template>
+      <template #value>
+        <p class="input-group">
+          <div class="form-control">{{ data.phone_number || '未登録' }}</div>
+          <a class="btn" :href="phone_numberValidator">発信</a>
+        </p>
+      </template>
+    </InputElement>
+    <InputElement @save="saveSheepData('email', data.email)">
+      <template #title>メール</template>
+      <template #input>
+        <input type="email" class="form-control" v-model="data.email">
+      </template>
+      <template #value>
+        <p class="input-group">
+          <div class="form-control">{{ data.email || '未登録' }}</div>
+          <a class="btn" :href="emailValidator">作成</a>
+        </p>
+      </template>
+    </InputElement>
+    <InputElement @save="saveSheepData('group_id', data.group_id)">
+      <template #title>グループ</template>
+      <template #input>
+        <select class="form-select" v-model.number="data.group_id">
           <option :value="undefined">未登録</option>
           <option v-for="group in groupArray" :value="group.id">{{ group.name }}</option>
         </select>
-        <router-link
-        class="btn"
-        v-if="data.group_id"
-        :to="{ name: 'group', params: { group_id: data.group_id } }"
-        >移動</router-link>
-      </div>
-    </template>
-  </InputElement>
-  <InputElement @save="saveSheepData('note', data.note)">
-    <template #title>どんな人？</template>
-    <template #input>
-      <textarea class="form-control" v-model="data.note" v-textarea-resize></textarea>
-    </template>
-    <template #value>
-      <pre class="form-control">{{ data.note || '未登録' }}</pre>
-    </template>
-  </InputElement>
-  <div class="form-label d-flex">
-    <label class="me-auto" style="line-height:40px">訪問履歴</label>
-    <button type="button" class="btn" @click="addTalk">追加</button>
-  </div>
-  <TalkEditor
-  v-for="talk in talkArray"
-  :key="talk.id"
-  :talk="talk"
-  @talk-save="saveTalk"
-  @talk-remove="removeTalk"
-  />
-  <button class="btn w-100 mb-2" @click="removeSheep">削除</button>
+      </template>
+      <template #value>
+        <div class="input-group">
+          <select class="form-select bg-white" style="background-image: none;" disabled v-model.number="data.group_id">
+            <option :value="undefined">未登録</option>
+            <option v-for="group in groupArray" :value="group.id">{{ group.name }}</option>
+          </select>
+          <router-link
+          class="btn"
+          v-if="data.group_id"
+          :to="{ name: 'group', params: { group_id: data.group_id } }"
+          >移動</router-link>
+        </div>
+      </template>
+    </InputElement>
+    <InputElement @save="saveSheepData('note', data.note)">
+      <template #title>どんな人？</template>
+      <template #input>
+        <textarea class="form-control" v-model="data.note" v-textarea-resize></textarea>
+      </template>
+      <template #value>
+        <pre class="form-control">{{ data.note || '未登録' }}</pre>
+      </template>
+    </InputElement>
+    <button class="btn w-100 mb-2" @click="removeSheep">削除</button>
+  </template>
+  <template v-else-if="tabContent === '訪問履歴'">
+    <button type="button" class="btn w-100" @click="addTalk">追加</button>
+    <TalkEditor
+    v-for="talk in talkArray"
+    :key="talk.id"
+    :talk="talk"
+    @talk-save="saveTalk"
+    @talk-remove="removeTalk"
+    />
+  </template>
 </template>

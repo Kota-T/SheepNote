@@ -24,6 +24,7 @@ function getDay(date: Date): string {
   <div class="card col-sm">
     <div class="card-body position-relative">
       <h5 class="card-title fw-bold">{{ sheep.name }}</h5>
+      <p class="card-text">住所<br>{{ sheep.address || "--" }}</p>
       <p class="card-text">最後に訪問した時間<br>
         <span v-if="!Object.keys(last_talk).length">
           -- 年 -- 月 -- 日 ( -- ) -- 時 -- 分
@@ -53,7 +54,7 @@ function getDay(date: Date): string {
       <div class="text-end">
         <router-link :to="{ name: 'sheep', params: { sheep_id: sheep.id } }" class="btn">詳細</router-link>
       </div>
-      <div class="position-absolute" style="top:6px;right:6px;" v-if="sheep.img_url">
+      <div class="position-absolute" style="top:10px;right:10px;" v-if="sheep.img_url">
         <img class="rounded-circle" :src="sheep.img_url" width="70" height="70">
       </div>
     </div>

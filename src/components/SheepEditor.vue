@@ -10,7 +10,7 @@ import db from '../db'
 const props = defineProps<{ sheep_id: string }>()
 
 const tabs = ref(['情報', '訪問履歴'])
-const tabContent = ref(tabs.value[0])
+const currentTab = ref(tabs.value[0])
 
 const data = reactive<Sheep>({} as Sheep)
 const phone_numberValidator = computed(()=>{
@@ -114,8 +114,8 @@ function removeTalk(talk: Talk): void {
 </script>
 
 <template>
-  <Tab :titles="tabs" @change="(title: string) => tabContent = title"/>
-  <template v-if="tabContent === '情報'">
+  <Tab :titles="tabs" @change="(title: string) => currentTab = title"/>
+  <template v-if="currentTab === '情報'">
     <ImageUploader v-model="data.img_url" @save="saveSheepData('img_url', data.img_url)" />
     <InputElement @save="saveSheepData('name', data.name)">
       <template #title>名前</template>
@@ -225,8 +225,8 @@ function removeTalk(talk: Talk): void {
     </InputElement>
     <button class="btn w-100 mb-2" @click="removeSheep">削除</button>
   </template>
-  <template v-else-if="tabContent === '訪問履歴'">
-    <button type="button" class="btn w-100" @click="addTalk">追加</button>
+  <template v-else-if="currentTab === '訪問履歴'">
+    <button type="button" class="btn w-100 mb-3" @click="addTalk">追加</button>
     <TalkEditor
     v-for="talk in talkArray"
     :key="talk.id"

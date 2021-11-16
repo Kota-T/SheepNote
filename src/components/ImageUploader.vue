@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import InputElement from './InputElement.vue'
 import ImageEditor from './ImageEditor.vue'
-import { nextTick, onMounted, ref, watchEffect } from 'vue'
+import { computed, nextTick, onMounted, ref, watchEffect } from 'vue'
 import { Sheep } from '../models'
 
 const props = defineProps<{ modelValue?: string }>()
@@ -10,12 +10,15 @@ const emits = defineEmits<{ (e: 'update:modelValue', modelValue?: string): void;
 const isShowEditor = ref(false)
 const fileInput    = ref<HTMLInputElement>()
 
-const img_url = ref("")
+import human_img from "../assets/human.png"
+const img_src = computed(() => props.modelValue || human_img)
+
+const uploaded_img_url = ref("")
 
 function startEdit(file: File){
   const reader = new FileReader()
   reader.onload = ()=>{
-    img_url.value = reader.result as string
+    uploaded_img_url.value = reader.result as string
     isShowEditor.value = true
   }
   reader.readAsDataURL(file)
@@ -43,8 +46,7 @@ function reset(){
 
 <template>
   <label class="d-flex">
-    <img v-if="modelValue" :src="modelValue" class="mx-auto my-3 border border-1 rounded-circle bg-white" width="90" height="90">
-    <img v-else src="../assets/human.png" class="mx-auto my-3 border border-1 rounded-circle bg-white" width="90" height="90">
+    <img :src="img_src" class="mx-auto mt-4 mb-3 border border-1 rounded-circle bg-white" width="120" height="120">
     <input
     type="file"
     accept="image/*"
@@ -54,6 +56,6 @@ function reset(){
     >
   </label>
   <Popup v-if="isShowEditor" @hide-popup="hide">
-    <ImageEditor :img_url="img_url" @end-edit="endEdit" />
+    <ImageEditor :img_url="uploaded_img_url" @end-edit="endEdit" />
   </Popup>
 </template>

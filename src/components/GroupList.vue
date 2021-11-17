@@ -49,7 +49,7 @@ function removeGroup(group: Group): void {
         <router-link v-if="group.id" :to="{ name: 'group', params: { group_id: group.id } }" class="btn">メンバーを表示</router-link>
         <button v-if="!isEditing" type="button" class="btn" @click="isEditing=true">編集</button>
         <template v-else>
-          <button type="button" class="btn" @click="saveGroup(group)">保存</button>
+          <button type="button" class="btn" @click="saveGroup(group);isEditing=false;">保存</button>
           <button type="button" class="btn" @click="isEditing=false">終了</button>
         </template>
         <button type="button" class="btn" @click="removeGroup(group)">削除</button>

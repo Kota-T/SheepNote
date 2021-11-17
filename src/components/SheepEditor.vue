@@ -103,7 +103,7 @@ function removeTalk(talk: Talk): void {
     <div class="w-100 text-end">
       <button v-if="!isEditing" type="button" class="btn" @click="isEditing=true">編集</button>
       <div v-else class="btn-group">
-        <button type="button" class="btn" @click="saveSheep">保存</button>
+        <button type="button" class="btn" @click="saveSheep();isEditing=false;">保存</button>
         <button type="button" class="btn" @click="isEditing=false">終了</button>
       </div>
     </div>

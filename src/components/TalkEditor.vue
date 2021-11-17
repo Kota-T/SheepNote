@@ -27,7 +27,7 @@ function unwrapReactive(talk: Talk): Talk {
         <label class="me-auto" style="line-height:40px;">日付と時間</label>
         <button v-if="!isEditing" type="button" class="btn" @click="isEditing=true">編集</button>
         <div v-else class="btn-group">
-          <button type="button" class="btn" @click="$emit('talk-save', unwrapReactive(data))">保存</button>
+          <button type="button" class="btn" @click="$emit('talk-save', unwrapReactive(data));isEditing=false;">保存</button>
           <button type="button" class="btn" @click="isEditing=false">終了</button>
         </div>
       </div>

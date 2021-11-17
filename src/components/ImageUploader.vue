@@ -4,8 +4,8 @@ import ImageEditor from './ImageEditor.vue'
 import { computed, nextTick, onMounted, ref, watchEffect } from 'vue'
 import { Sheep } from '../models'
 
-const props = defineProps<{ modelValue?: string }>()
-const emits = defineEmits<{ (e: 'update:modelValue', modelValue?: string): void; (e: 'save'): void; }>()
+const props = defineProps<{ isEditing: boolean, modelValue?: string }>()
+const emits = defineEmits<{ (e: 'update:modelValue', modelValue?: string): void }>()
 
 const isShowEditor = ref(false)
 const fileInput    = ref<HTMLInputElement>()
@@ -34,10 +34,6 @@ function hide(){
   fileInput.value!.value = ""
 }
 
-function save(){
-  emits('save')
-}
-
 function reset(){
   fileInput.value!.value = ""
   emits('update:modelValue', undefined)
@@ -51,6 +47,7 @@ function reset(){
     type="file"
     accept="image/*"
     class="d-none"
+    :disabled="!isEditing"
     @change="startEdit(($event.target as HTMLInputElement).files![0] as File)"
     ref="fileInput"
     >

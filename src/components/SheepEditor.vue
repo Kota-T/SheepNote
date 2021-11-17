@@ -107,7 +107,7 @@ function removeTalk(talk: Talk): void {
         <button type="button" class="btn" @click="isEditing=false">終了</button>
       </div>
     </div>
-    <ImageUploader v-model="sheep.img_url" @save="saveSheepData('img_url', sheep.img_url)" />
+    <ImageUploader :isEditing="isEditing" v-model="sheep.img_url" />
     <div class="form-group">
       <label class="form-label">名前</label>
       <input v-if="isEditing" type="text" class="form-control" v-model="sheep.name">

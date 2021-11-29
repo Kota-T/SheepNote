@@ -8,7 +8,7 @@ import db from '../db'
 
 const props = defineProps<{ sheep_id: string }>()
 
-const tabs = ref(['情報', '訪問履歴'])
+const tabs = ref(['情報', '連絡先', '訪問履歴'])
 const currentTab = ref(tabs.value[0])
 
 const isEditing = ref(false)
@@ -139,27 +139,6 @@ function removeTalk(talk: Talk): void {
       <p v-else class="form-control">{{ sheep.age || '未登録' }}</p>
     </div>
     <div class="form-group">
-      <label class="form-label">住所</label>
-      <textarea v-if="isEditing" class="form-control" v-model="sheep.address" v-textarea-resize></textarea>
-      <pre v-else class="form-control">{{ sheep.address || '未登録' }}</pre>
-    </div>
-    <div class="form-group">
-      <label class="form-label">電話番号</label>
-      <input v-if="isEditing" type="tel" class="form-control" v-model="sheep.phone_number">
-      <p v-else class="input-group">
-        <div class="form-control">{{ sheep.phone_number || '未登録' }}</div>
-        <a class="btn" :href="phone_numberValidator">発信</a>
-      </p>
-    </div>
-    <div class="form-group">
-      <label class="form-label">メール</label>
-      <input v-if="isEditing" type="email" class="form-control" v-model="sheep.email">
-      <p v-else class="input-group">
-        <div class="form-control">{{ sheep.email || '未登録' }}</div>
-        <a class="btn" :href="emailValidator">作成</a>
-      </p>
-    </div>
-    <div class="form-group">
       <label class="form-label">グループ</label>
       <select v-if="isEditing" class="form-select" v-model.number="sheep.group_id">
         <option :value="undefined">未登録</option>
@@ -183,6 +162,36 @@ function removeTalk(talk: Talk): void {
       <pre v-else class="form-control">{{ sheep.note || '未登録' }}</pre>
     </div>
     <button class="btn w-100 mb-2" @click="removeSheep">削除</button>
+  </template>
+  <template v-else-if="currentTab === '連絡先'">
+    <div class="w-100 text-end">
+      <button v-if="!isEditing" type="button" class="btn" @click="isEditing=true">編集</button>
+      <div v-else class="btn-group">
+        <button type="button" class="btn" @click="saveSheep();isEditing=false;">保存</button>
+        <button type="button" class="btn" @click="isEditing=false">終了</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">住所</label>
+      <textarea v-if="isEditing" class="form-control" v-model="sheep.address" v-textarea-resize></textarea>
+      <pre v-else class="form-control">{{ sheep.address || '未登録' }}</pre>
+    </div>
+    <div class="form-group">
+      <label class="form-label">電話番号</label>
+      <input v-if="isEditing" type="tel" class="form-control" v-model="sheep.phone_number">
+      <p v-else class="input-group">
+        <div class="form-control">{{ sheep.phone_number || '未登録' }}</div>
+        <a class="btn" :href="phone_numberValidator">発信</a>
+      </p>
+    </div>
+    <div class="form-group">
+      <label class="form-label">メール</label>
+      <input v-if="isEditing" type="email" class="form-control" v-model="sheep.email">
+      <p v-else class="input-group">
+        <div class="form-control">{{ sheep.email || '未登録' }}</div>
+        <a class="btn" :href="emailValidator">作成</a>
+      </p>
+    </div>
   </template>
   <template v-else-if="currentTab === '訪問履歴'">
     <button type="button" class="btn w-100 mb-3" @click="addTalk">追加</button>

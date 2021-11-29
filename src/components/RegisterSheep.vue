@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ImageUploader from './ImageUploader.vue'
 import { ref, reactive, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { Sheep, Group } from '../models'
 import db from '../db'
 
@@ -11,8 +12,13 @@ onMounted(async ()=>{
   groupArray.value = await db.groups.toArray()
 })
 
+const router = useRouter()
+
 function registerSheep(): void {
   db.sheep.add(data)
+    .then(id => {
+      router.push({ name: 'sheep', params: { sheep_id: id } })
+    })
 }
 
 async function detectAddress(): Promise<void> {
@@ -94,5 +100,5 @@ async function detectAddress(): Promise<void> {
     <label class="form-label">どんな人？</label>
     <textarea class="form-control" v-model="data.note" v-textarea-resize></textarea>
   </div>
-  <router-link to="/" class="btn w-100 mb-2" @click="registerSheep">登録</router-link>
+  <button class="btn w-100 mb-2" @click="registerSheep">登録</button>
 </template>

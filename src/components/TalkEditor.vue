@@ -106,8 +106,8 @@ function unwrapReactive(talk: Talk): Talk {
     </div>
     <div class="form-group">
       <label class="form-label">話した内容</label>
-      <textarea v-if="isEditing" class="form-control" v-model="data.details" v-textarea-resize></textarea>
-      <pre v-else class="form-control">{{ data.details || "未登録" }}</pre>
+      <textarea v-if="isEditing" class="form-control" v-model="data.detail" v-textarea-resize></textarea>
+      <pre v-else class="form-control">{{ data.detail || "未登録" }}</pre>
     </div>
     <button type="button" class="btn w-100 mb-3" @click="$emit('talk-remove', unwrapReactive(data))">削除</button>
   </div>

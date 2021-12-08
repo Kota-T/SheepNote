@@ -25,5 +25,5 @@ export interface Talk {
   id?: number
   sheep_id: number
   date: Date
-  details: string
+  detail: string
 }

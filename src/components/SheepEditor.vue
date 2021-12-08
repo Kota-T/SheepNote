@@ -69,7 +69,7 @@ function addTalk(): void {
   const talk: Talk = {
     sheep_id : sheep.id!,
     date     : new Date(),
-    details  : ""
+    detail  : ""
   }
   db.talks
     .put(talk)

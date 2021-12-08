@@ -52,7 +52,7 @@ async function search(text: string): Promise<void> {
   const talksSearch = await Promise.all(
     text.split(' ').map(
       kwd => db.talks
-        .filter(talk => talk.details.includes(kwd))
+        .filter(talk => talk.detail.includes(kwd))
         .toArray(
           talks => talks.map(
             talk => db.sheep

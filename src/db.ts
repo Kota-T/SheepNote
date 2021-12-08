@@ -26,7 +26,7 @@ const db = new class SheepNoteDB extends Dexie {
         next_talk_id
       `,
       groups: '++id, name',
-      talks: '++id, sheep_id, date, details'
+      talks: '++id, sheep_id, date, detail'
     })
 
     this.sheep  = this.table("sheep")
